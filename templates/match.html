@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ match.h }} vs {{ match.a }} — 2026 世界杯预测{% endblock %}
+{% block content %}
+
+<a class="back" href="/">← 返回淘汰赛</a>
+
+<div class="detail-head">
+  <h1>{{ flag(match.h) | safe }} {{ match.h }} <span class="vs-small">vs</span> {{ match.a }} {{ flag(match.a) | safe }}</h1>
+  <p class="sub">16 强淘汰赛 · {{ date_formatted }} 北京时间 · {{ match.venue }}</p>
+</div>
+
+<div class="grid-2">
+  <!-- Probability -->
+  <div class="panel">
+    <h2>90 分钟概率</h2>
+    <div class="prob-bar big" style="margin:16px 0">
+      <div class="seg home" style="width:{{ (pred.pH*100)|round(1) }}%">{{ (pred.pH*100)|round(1) }}%</div>
+      <div class="seg draw" style="width:{{ (pred.pD*100)|round(1) }}%">{{ (pred.pD*100)|round(1) }}%</div>
+      <div class="seg away" style="width:{{ (pred.pA*100)|round(1) }}%">{{ (pred.pA*100)|round(1) }}%</div>
+    </div>
+    <p class="small dim">最可能比分：</p>
+    {% for s in pred.scores[:5] %}
+    <span class="chip">{{ s.s }} <em>{{ (s.p*100)|round(1) }}%</em></span>
+    {% endfor %}
+    <p class="small dim" style="margin-top:12px">
+      预期进球: {{ match.h }} {{ (pred.lH)|round(2) }} – {{ (pred.lA)|round(2) }} {{ match.a }}
+    </p>
+  </div>
+
+  <!-- Team comparison -->
+  <div class="panel">
+    <h2>球队对比</h2>
+    <table class="compare">
+      <tr><th></th><th>{{ flag(match.h) | safe }} {{ match.h }}</th><th>{{ flag(match.a) | safe }} {{ match.a }}</th></tr>
+      {% set tH = TEAMS.get(match.h, {}) %}
+      {% set tA = TEAMS.get(match.a, {}) %}
+      <tr><td>Elo</td><td><strong>{{ tH.elo }}</strong></td><td><strong>{{ tA.elo }}</strong></td></tr>
+      <tr><td>进攻</td><td>+{{ tH.att }}</td><td>+{{ tA.att }}</td></tr>
+      <tr><td>防守</td><td>+{{ tH.def }}</td><td>+{{ tA.def }}</td></tr>
+      <tr><td>赛事 GF/GA</td><td>{{ tH.gf }}/{{ tH.ga }}</td><td>{{ tA.gf }}/{{ tA.ga }}</td></tr>
+      <tr><td>赛事 xG 差</td><td>{{ (tH.xgFor - tH.xgAgainst)|round(2) }}</td><td>{{ (tA.xgFor - tA.xgAgainst)|round(2) }}</td></tr>
+      <tr><td>零封</td><td>{{ tH.cs }}</td><td>{{ tA.cs }}</td></tr>
+      <tr><td>控球率</td><td>{{ tH.poss }}%</td><td>{{ tA.poss }}%</td></tr>
+    </table>
+  </div>
+</div>
+
+{% if result %}
+<div class="panel" style="border-left:4px solid var(--green);text-align:center">
+  <h2>✅ 比赛结果</h2>
+  <p style="font-size:2rem;font-weight:800;margin:10px 0">
+    {{ result.hs }} - {{ result.as }}
+    {% if result.ps %}<small>(点球 {{ result.ps }}-{{ result.pa }})</small>{% endif %}
+  </p>
+  <p style="font-size:1.2rem;color:var(--green)"><strong>{{ result.winner }}</strong> 晋级！</p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}小组赛 — 2026 世界杯预测{% endblock %}
+{% block content %}
+
+<h1>小组赛最终积分榜</h1>
+<p class="note">48 队分为 12 组，每组前 2 名 + 8 个最佳第 3 名晋级 32 强淘汰赛。</p>
+
+{% for group_name, standings in groups.items() %}
+<h2 class="date-head">{{ group_name }} 组</h2>
+<div class="table-wrap">
+<table class="rank-table">
+  <thead>
+    <tr><th>#</th><th>球队</th><th>赛</th><th>胜</th><th>平</th><th>负</th><th>GF</th><th>GA</th><th>GD</th><th>积分</th></tr>
+  </thead>
+  <tbody>
+    {% for s in standings %}
+    {% set w = (s.p // 3) | int %}
+    {% set d = ((s.p % 3) // 1) | int %}
+    {% set l = (3 - w - d) | int %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td class="team-cell">{{ flag(s.team) | safe }} {{ s.team }}</td>
+      <td>3</td>
+      <td>{{ w }}</td>
+      <td>{{ d }}</td>
+      <td>{{ l }}</td>
+      <td>{{ s.gf }}</td>
+      <td>{{ s.ga }}</td>
+      <td>{{ s.gd }}</td>
+      <td><strong>{{ s.p }}</strong></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endfor %}
+
+<h2 class="date-head" style="margin-top:36px">32 强淘汰赛结果</h2>
+<div class="cards">
+  {% for m in R32_RESULTS %}
+  <div class="card">
+    <div class="card-top">
+      <span class="group-tag">32 强</span>
+      <span>{{ m.winner }} 晋级</span>
+    </div>
+    <div class="teams-row">
+      <span class="team">{{ flag(m.h) | safe }}{{ m.h }}</span>
+      <span class="score final">
+        {{ m.hs }} - {{ m.as }}
+        {% if m.ps %}({{ m.ps }}-{{ m.pa }} 点球){% endif %}
+      </span>
+      <span class="team away">{{ m.a }}{{ flag(m.a) | safe }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}2026 世界杯预测{% endblock %}</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="ai-notice">本页预测结果由统计模型自动生成，仅供学习交流。</div>
+<header class="nav">
+  <a class="brand" href="/">2026 世界杯预测</a>
+  <nav>
+    <a href="/">淘汰赛</a>
+    <a href="/groups">小组赛</a>
+    <a href="/teams">球队 &amp; 夺冠概率</a>
+  </nav>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>
+  <p class="disclaimer">⚠️ 预测仅供参考，概率不代表确定结论。模型基于 Dixon-Coles + Elo + xG + 球员数据，无法涵盖伤病、临场等因素。</p>
+  <p class="meta-line">
+    数据截至 {{ last_update if last_update else '2026-07-04' }} ｜ 蒙特卡洛 10000 次
+    ｜ 赛事表现 55% + Elo 15% + 球员 20% + 动量 10%
+  </p>
+</footer>
+<script>
+const lastRun = "{{ last_update if last_update else '' }}";
+setInterval(async () => {
+  try {
+    const r = await fetch('/api/meta');
+    const m = await r.json();
+    if (m.last_pipeline_run !== lastRun) location.reload();
+  } catch(e) {}
+}, 60000);
+</script>
+</body>
+</html>

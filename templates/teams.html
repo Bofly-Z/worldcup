@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}球队排名与夺冠概率 — 2026 世界杯预测{% endblock %}
+{% block content %}
+
+<h1>Elo 排名与晋级概率</h1>
+<p class="note">晋级概率来自整届赛事 10000 次蒙特卡洛模拟。综合分 = 赛事表现×55% + Elo×15% + 球员×20% + 动量×10%。点击球队查看详情。</p>
+
+<div class="table-wrap">
+<table class="rank-table">
+  <thead>
+    <tr><th>#</th><th>球队</th><th>组</th><th>Elo</th><th>进攻</th><th>防守</th><th>综合分</th><th>8强</th><th>4强</th><th>决赛</th><th>🏆夺冠</th></tr>
+  </thead>
+  <tbody>
+    {% for t in teams %}
+    {% set r = t.mc %}
+    {% set champ = r.champPct %}
+    {% set bg = 'rgba(180,83,9,0.7)' if champ > 12 else 'rgba(180,83,9,0.4)' if champ > 5 else 'rgba(180,83,9,0.18)' if champ > 1 else 'transparent' %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td class="team-cell"><a class="team-link" href="/team/{{ t.name }}">
+        {{ flag(t.name) | safe }} {{ t.name }}</a></td>
+      <td>{{ t.dat.group }}</td>
+      <td><strong>{{ t.dat.elo }}</strong></td>
+      <td>+{{ t.dat.att }}</td>
+      <td>+{{ t.dat.def }}</td>
+      <td><strong>{{ (t.composite)|round(0)|int }}</strong></td>
+      <td>{{ (r.qfPct)|round(0)|int }}%</td>
+      <td>{{ (r.sfPct)|round(0)|int }}%</td>
+      <td>{{ (r.fPct)|round(0)|int }}%</td>
+      <td class="champ" style="background:{{ bg }};color:{% if champ > 5 %}#fff{% elif champ > 1 %}#b45309{% else %}#334155{% endif %}">
+        {{ (champ)|round(1) }}%</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}

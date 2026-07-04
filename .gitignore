@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+_server.log
+_test_syntax.js
+index_old.html

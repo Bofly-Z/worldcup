@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.gmanetwork.com)",
+      "WebFetch(domain:43.137.46.40)",
+      "Bash(curl -s -L --max-time 15 \"http://43.137.46.40:8000/\")",
+      "Bash(curl *)",
+      "Bash(node -e \"try { require\\('fs'\\).readFileSync\\('index.html','utf8'\\); console.log\\('File readable'\\) } catch\\(e\\) { console.log\\('Error:', e.message\\) }\")",
+      "Bash(node -e ' *)",
+      "Bash(rm -f \"/c/Users/HUAWEI/OneDrive/Desktop/星湖街/世界杯/_test.js\")",
+      "Bash(rm -f \"/c/Users/HUAWEI/OneDrive/Desktop/星湖街/世界杯/_test_syntax.js\")",
+      "Bash(node --check _test_syntax.js)",
+      "Bash(node --check \"_test_syntax.js\")",
+      "Bash(rm -f \"_test_syntax.js\")",
+      "Bash(node -e 'const fs=require\\(\"fs\"\\);const h=fs.readFileSync\\(\"index.html\",\"utf8\"\\);const s=h.indexOf\\(\"<script>\"\\)+8;fs.writeFileSync\\(\"_t.js\",h.slice\\(s,h.indexOf\\(\"</script>\",s\\)\\)\\);')",
+      "Bash(node --check _t.js)",
+      "Bash(rm _t.js)",
+      "Bash(ssh -o StrictHostKeyChecking=no -R 80:localhost:8000 serveo.net)",
+      "Bash(pkill -f \"http.server\")",
+      "Bash(pkill -f \"python.*8000\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"from app import app; print\\('Flask import OK'\\)\")",
+      "Bash(python app.py)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" http://localhost:8000/)",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(pkill -f \"serveo.net\")",
+      "Bash(pkill -f \"python.*http.server\")",
+      "Bash(pkill -f \"flask\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
+      "Bash(python -c ' *)",
+      "Bash(python -c \"from flask import Flask; app = Flask\\(__name__\\); print\\('Cache dir:', app.jinja_env.bytecode_cache\\)\")",
+      "Bash(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 root@43.137.46.40 \"echo connected\")",
+      "Bash(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 ubuntu@43.137.46.40 \"echo connected\")",
+      "Bash(npx --yes netlify-cli --version)",
+      "Bash(npx --yes vercel --version)",
+      "Bash(npx --yes surge --version)",
+      "Bash(npx --yes localtunnel --version)",
+      "Bash(npx --yes cloudflared --version)",
+      "Bash(git config *)"
+    ]
+  }
+}

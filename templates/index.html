@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}淘汰赛 — 2026 世界杯预测{% endblock %}
+{% block content %}
+
+<h1>淘汰赛赛程与预测</h1>
+<p class="note">仅列出<strong>对阵已确定</strong>的淘汰赛场次，按时间排序。已赛标绿，未赛显示预测概率。</p>
+
+{% set date_groups = {} %}
+{% for item in r16_predictions %}
+  {% set d = item.match.date[:10] %}
+  {% set _ = date_groups.setdefault(d, []).append(item) %}
+{% endfor %}
+
+{% for day, items in date_groups.items() %}
+<h2 class="date-head">{{ day }} <small class="tz">北京时间</small></h2>
+<div class="cards">
+  {% for item in items %}
+  <a class="card" href="/match/{{ item.match.id }}" {% if item.result %}style="border-left:3px solid var(--green)"{% endif %}>
+    <div class="card-top">
+      <span class="group-tag">{% if item.result %}✅ 已完赛{% else %}16 强 · {{ item.match.venue }}{% endif %}</span>
+      <span>{{ item.date_formatted }}</span>
+    </div>
+    <div class="teams-row">
+      <span class="team">{{ flag(item.match.h) | safe }}{{ item.match.h }}</span>
+      {% if item.result %}
+        <span class="score final">
+          {{ item.result.hs }} - {{ item.result.as }}
+          {% if item.result.ps %}({{ item.result.ps }}-{{ item.result.pa }} 点球){% endif %}
+        </span>
+      {% else %}
+        <span class="score kickoff">VS</span>
+      {% endif %}
+      <span class="team away">{{ item.match.a }}{{ flag(item.match.a) | safe }}</span>
+    </div>
+
+    {% if not item.result %}
+    <div class="prob-bar" title="主胜 {{ (item.pred.pH*100)|round(1) }}% / 平 {{ (item.pred.pD*100)|round(1) }}% / 客胜 {{ (item.pred.pA*100)|round(1) }}%">
+      <div class="seg home" style="width:{{ (item.pred.pH*100)|round(1) }}%">{{ (item.pred.pH*100)|round(1) }}%</div>
+      <div class="seg draw" style="width:{{ (item.pred.pD*100)|round(1) }}%">{{ (item.pred.pD*100)|round(1) }}%</div>
+      <div class="seg away" style="width:{{ (item.pred.pA*100)|round(1) }}%">{{ (item.pred.pA*100)|round(1) }}%</div>
+    </div>
+    <div class="top-scores">
+      最可能比分：
+      {% for s in item.pred.scores[:3] %}
+      <span class="chip">{{ s.s }} <em>{{ (s.p*100)|round(1) }}%</em></span>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="top-scores">✅ <strong>{{ item.result.winner }}</strong> 晋级！</div>
+    {% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<!-- Bracket Tree -->
+<h1 class="detail-title" id="bracket">淘汰赛对阵树</h1>
+
+<!-- R16 → QF -->
+<div class="cards">
+  {% for slot in qf_slots %}
+  <div class="card ko-card" id="{{ slot.qf.id }}">
+    <div class="card-top">
+      <span class="group-tag">{{ slot.qf.venue }}</span>
+      <span>{{ slot.qf.date }}</span>
+    </div>
+
+    <!-- R16 pairings feeding this QF -->
+    <div style="font-size:.78rem;color:var(--dim);margin-bottom:6px">
+      {{ flag(slot.m1.h) | safe }}{{ slot.m1.h }} vs {{ slot.m1.a }}{{ flag(slot.m1.a) | safe }}
+      &nbsp;→&nbsp;
+      {{ flag(slot.m2.h) | safe }}{{ slot.m2.h }} vs {{ slot.m2.a }}{{ flag(slot.m2.a) | safe }}
+    </div>
+
+    <div class="ko-sides">
+      <div class="ko-side">
+        <div class="ko-team">
+          <div class="ko-line">
+            <span class="ko-name">{{ flag(slot.adv1) | safe }} {{ slot.adv1 }}</span>
+            <em class="ko-val">{{ (slot.pct1)|round(0)|int }}%</em>
+          </div>
+          <span class="ko-p"><i style="width:{{ (slot.pct1)|round(0) }}%"></i></span>
+        </div>
+      </div>
+      <div class="ko-side">
+        <div class="ko-team">
+          <div class="ko-line">
+            <span class="ko-name">{{ flag(slot.adv2) | safe }} {{ slot.adv2 }}</span>
+            <em class="ko-val">{{ (slot.pct2)|round(0)|int }}%</em>
+          </div>
+          <span class="ko-p"><i style="width:{{ (slot.pct2)|round(0) }}%"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- SF -->
+<h2 class="date-head">半决赛</h2>
+<div class="cards">
+  {% for slot in sf_slots %}
+  <div class="card ko-card">
+    <div class="card-top">
+      <span class="group-tag">{{ slot.sf.venue }}</span>
+      <span>{{ slot.sf.date }}</span>
+    </div>
+    <div class="ko-sides">
+      <div class="ko-side">
+        {% for t, pct in slot.teams[:3] %}
+        <div class="ko-team">
+          <div class="ko-line"><span class="ko-name">{{ flag(t) | safe }} {{ t }}</span><em class="ko-val">{{ (pct)|round(0)|int }}%</em></div>
+          <span class="ko-p"><i style="width:{{ (pct)|round(0) }}%"></i></span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Final & Champion -->
+<h2 class="date-head">决赛 · 7月19日 · 纽约大都会人寿</h2>
+<div class="cards">
+  <div class="card ko-card" style="background:var(--amber-bg);border-color:var(--amber-ln)">
+    <div class="card-top">
+      <span class="group-tag">🏆 第 104 场</span>
+      <span>07-19 · 东拉瑟福（纽约）</span>
+    </div>
+    <div style="text-align:center;padding:14px 0">
+      <div style="font-size:2rem">👑</div>
+      <div style="font-size:1.2rem;font-weight:800;color:var(--amber)">
+        {{ flag(champ_ranking[0]) | safe }} {{ champ_ranking[0] }}
+      </div>
+      <div style="font-size:1.8rem;font-weight:800;color:var(--amber)">
+        {{ (mc[champ_ranking[0]]['champPct'])|round(1) }}%
+      </div>
+      <div style="font-size:.78rem;color:var(--dim);margin-top:6px">
+        夺冠热门：
+        {% for t in champ_ranking[1:6] %}
+        {{ flag(t) | safe }}{{ t }} {{ (mc[t]['champPct'])|round(1) }}%{% if not loop.last %} · {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

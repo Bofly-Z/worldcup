@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ name }} — 球队详情 — 2026 世界杯预测{% endblock %}
+{% block content %}
+
+<a class="back" href="/teams">← 返回球队排名</a>
+
+<div class="team-hero panel">
+  <div class="team-hero-flag">{{ flag(name) | safe }}</div>
+  <div class="team-hero-info">
+    <h1>{{ name }} <span class="team-en">FIFA #{{ dat.fifa }}</span></h1>
+    <p class="sub">Elo: {{ dat.elo }} · 进攻 +{{ dat.att }} · 防守 +{{ dat.def }} · {{ dat.group }} 组</p>
+    <div class="stat-chips">
+      <span class="stat-chip">GF/GA: {{ dat.gf }}/{{ dat.ga }}</span>
+      <span class="stat-chip">xG差: {{ (dat.xgFor - dat.xgAgainst)|round(2) }}</span>
+      <span class="stat-chip">零封: {{ dat.cs }}</span>
+      {% if mc.champPct > 5 %}<span class="stat-chip gold">夺冠热门</span>{% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="panel">
+    <h2>晋级概率</h2>
+    <div class="adv-row"><span class="adv-label">8强</span><div class="adv-track"><i style="width:{{ (mc.qfPct)|round(0) }}%"></i></div><span class="adv-val">{{ (mc.qfPct)|round(1) }}%</span></div>
+    <div class="adv-row"><span class="adv-label">4强</span><div class="adv-track"><i style="width:{{ (mc.sfPct)|round(0) }}%"></i></div><span class="adv-val">{{ (mc.sfPct)|round(1) }}%</span></div>
+    <div class="adv-row"><span class="adv-label">决赛</span><div class="adv-track"><i style="width:{{ (mc.fPct)|round(0) }}%"></i></div><span class="adv-val">{{ (mc.fPct)|round(1) }}%</span></div>
+    <div class="adv-row"><span class="adv-label">🏆夺冠</span><div class="adv-track"><i style="width:{{ (mc.champPct)|round(0) }}%"></i></div><span class="adv-val" style="color:var(--amber)">{{ (mc.champPct)|round(1) }}%</span></div>
+  </div>
+  <div class="panel">
+    <h2>综合评分</h2>
+    <p class="small dim">赛事 55% + Elo 15% + 球员 20% + 动量 10%</p>
+    <div class="adv-row"><span class="adv-label">赛事</span><div class="adv-track"><i style="width:{{ scores.tournament }}%"></i></div><span class="adv-val">{{ scores.tournament }}</span></div>
+    <div class="adv-row"><span class="adv-label">Elo</span><div class="adv-track"><i style="width:{{ scores.elo }}%"></i></div><span class="adv-val">{{ scores.elo }}</span></div>
+    <div class="adv-row"><span class="adv-label">球员</span><div class="adv-track"><i style="width:{{ scores.player }}%"></i></div><span class="adv-val">{{ scores.player }}</span></div>
+    <div class="adv-row"><span class="adv-label">动量</span><div class="adv-track"><i style="width:{{ scores.momentum }}%"></i></div><span class="adv-val">{{ scores.momentum }}</span></div>
+    <div class="adv-row"><span class="adv-label">综合</span><div class="adv-track"><i style="width:{{ scores.composite }}%;background:var(--amber)"></i></div><span class="adv-val" style="color:var(--amber)"><strong>{{ scores.composite }}</strong></span></div>
+  </div>
+</div>
+
+{% if players %}
+<h2 class="detail-title">核心球员</h2>
+<div class="table-wrap">
+<table class="squad-table">
+  <thead>
+    <tr><th>球员</th><th>俱乐部</th><th>年龄</th><th>24-25进球</th><th>24-25助攻</th><th>俱乐部均分</th><th>世界杯进球</th><th>世界杯均分</th><th>身价</th></tr>
+  </thead>
+  <tbody>
+    {% for p in players %}
+    <tr>
+      <td class="squad-name"><strong>{{ p.name }}</strong></td>
+      <td class="squad-club">{{ p.club }}</td>
+      <td>{{ p.age }}</td>
+      <td><strong>{{ p.g }}</strong></td>
+      <td>{{ p.a }}</td>
+      <td>{{ p.cr }}</td>
+      <td><strong>{{ p.tg }}</strong></td>
+      <td style="color:{% if p.tr > 8 %}#b45309{% else %}#2563eb{% endif %}">{{ p.tr }}</td>
+      <td class="dim">€{{ p.val }}M</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+{% endblock %}

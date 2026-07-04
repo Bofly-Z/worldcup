@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "id": "f362c950",
+      "cron": "7,37 * * * *",
+      "prompt": "Task: Check for new 2026 World Cup knockout stage results and update data.json.\n\n1. Search for \"2026 World Cup round of 16 results scores [today's date]\" using WebSearch\n2. Also search specific terms like \"World Cup 2026 R16 result\", \"Canada Morocco result 2026 World Cup\", \"Paraguay France World Cup 2026\", \"Brazil Norway World Cup 2026 score\", etc.\n3. If any new R16/QF/SF/Final results are found (matches listed as \"upcoming\" in data.json that now have actual scores), update the file at: `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\data.json`\n4. For each newly completed match, set: hs (home score), as (away score), winner, status=\"done\"\n5. Update the lastUpdated timestamp\n6. Also check for updated top scorer data (Golden Boot race)\n7. If NO new results are found, just output \"数据已是最新\" and do not modify data.json\n8. Key sources to try: sportingnews.com, espn.com, foxsports.com, footystats.org, fifa.com, as.com, gmanetwork.com, depor.com\n\nThe data.json structure uses these match IDs:\n- R16-1: Canada vs Morocco (July 5)\n- R16-2: Paraguay vs France (July 5)\n- R16-3: Brazil vs Norway (July 6)\n- R16-4: Mexico vs England (July 6)\n- R16-5: Portugal vs Spain (July 7)\n- R16-6: USA vs Belgium (July 7)\n- R16-7: Argentina vs Egypt (July 8)\n- R16-8: Switzerland vs Colombia (July 8)\n\nCurrent date is July 4, 2026. R16 matches start July 5.",
+      "createdAt": 1783173410174,
+      "lastFiredAt": 1783177369319,
+      "recurring": true,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    }
+  ]
+}

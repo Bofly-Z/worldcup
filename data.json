@@ -1,0 +1,58 @@
+{
+  "lastUpdated": "2026-07-04T12:00:00Z",
+  "source": "FIFA.com / FootyStats / 各体育媒体",
+  "matches": {
+    "R32": [
+      {"id":"R32-1","h":"加拿大","a":"南非","hs":1,"as":0,"winner":"加拿大","stage":"R32","status":"done"},
+      {"id":"R32-2","h":"巴西","a":"日本","hs":2,"as":1,"winner":"巴西","stage":"R32","status":"done"},
+      {"id":"R32-3","h":"德国","a":"巴拉圭","hs":1,"as":1,"ps":4,"pa":3,"winner":"巴拉圭","stage":"R32","status":"done"},
+      {"id":"R32-4","h":"荷兰","a":"摩洛哥","hs":1,"as":1,"ps":2,"pa":3,"winner":"摩洛哥","stage":"R32","status":"done"},
+      {"id":"R32-5","h":"挪威","a":"科特迪瓦","hs":2,"as":1,"winner":"挪威","stage":"R32","status":"done"},
+      {"id":"R32-6","h":"法国","a":"瑞典","hs":3,"as":0,"winner":"法国","stage":"R32","status":"done"},
+      {"id":"R32-7","h":"墨西哥","a":"厄瓜多尔","hs":2,"as":0,"winner":"墨西哥","stage":"R32","status":"done"},
+      {"id":"R32-8","h":"英格兰","a":"民主刚果","hs":2,"as":1,"winner":"英格兰","stage":"R32","status":"done"},
+      {"id":"R32-9","h":"比利时","a":"塞内加尔","hs":3,"as":2,"winner":"比利时","stage":"R32","status":"done"},
+      {"id":"R32-10","h":"美国","a":"波黑","hs":2,"as":0,"winner":"美国","stage":"R32","status":"done"},
+      {"id":"R32-11","h":"西班牙","a":"奥地利","hs":3,"as":0,"winner":"西班牙","stage":"R32","status":"done"},
+      {"id":"R32-12","h":"葡萄牙","a":"克罗地亚","hs":2,"as":1,"winner":"葡萄牙","stage":"R32","status":"done"},
+      {"id":"R32-13","h":"瑞士","a":"阿尔及利亚","hs":2,"as":0,"winner":"瑞士","stage":"R32","status":"done"},
+      {"id":"R32-14","h":"澳大利亚","a":"埃及","hs":1,"as":1,"ps":2,"pa":4,"winner":"埃及","stage":"R32","status":"done"},
+      {"id":"R32-15","h":"阿根廷","a":"佛得角","hs":3,"as":2,"winner":"阿根廷","stage":"R32","status":"done"},
+      {"id":"R32-16","h":"哥伦比亚","a":"加纳","hs":1,"as":0,"winner":"哥伦比亚","stage":"R32","status":"done"}
+    ],
+    "R16": [
+      {"id":"R16-1","h":"加拿大","a":"摩洛哥","hs":null,"as":null,"winner":null,"date":"2026-07-05T01:00+08","venue":"休斯敦","status":"upcoming"},
+      {"id":"R16-2","h":"巴拉圭","a":"法国","hs":null,"as":null,"winner":null,"date":"2026-07-05T05:00+08","venue":"费城","status":"upcoming"},
+      {"id":"R16-3","h":"巴西","a":"挪威","hs":null,"as":null,"winner":null,"date":"2026-07-06T04:00+08","venue":"纽约","status":"upcoming"},
+      {"id":"R16-4","h":"墨西哥","a":"英格兰","hs":null,"as":null,"winner":null,"date":"2026-07-06T08:00+08","venue":"墨西哥城","status":"upcoming"},
+      {"id":"R16-5","h":"葡萄牙","a":"西班牙","hs":null,"as":null,"winner":null,"date":"2026-07-07T03:00+08","venue":"达拉斯","status":"upcoming"},
+      {"id":"R16-6","h":"美国","a":"比利时","hs":null,"as":null,"winner":null,"date":"2026-07-07T08:00+08","venue":"西雅图","status":"upcoming"},
+      {"id":"R16-7","h":"阿根廷","a":"埃及","hs":null,"as":null,"winner":null,"date":"2026-07-08T00:00+08","venue":"亚特兰大","status":"upcoming"},
+      {"id":"R16-8","h":"瑞士","a":"哥伦比亚","hs":null,"as":null,"winner":null,"date":"2026-07-08T04:00+08","venue":"温哥华","status":"upcoming"}
+    ],
+    "QF": [
+      {"id":"QF-1","from":["R16-1","R16-2"],"date":"2026-07-09","venue":"福克斯堡","status":"pending"},
+      {"id":"QF-2","from":["R16-3","R16-4"],"date":"2026-07-11","venue":"迈阿密","status":"pending"},
+      {"id":"QF-3","from":["R16-5","R16-6"],"date":"2026-07-10","venue":"洛杉矶","status":"pending"},
+      {"id":"QF-4","from":["R16-7","R16-8"],"date":"2026-07-12","venue":"堪萨斯城","status":"pending"}
+    ],
+    "SF": [
+      {"id":"SF-1","from":["QF-1","QF-2"],"date":"2026-07-14","venue":"达拉斯","status":"pending"},
+      {"id":"SF-2","from":["QF-3","QF-4"],"date":"2026-07-15","venue":"亚特兰大","status":"pending"}
+    ],
+    "FINAL": {"id":"FINAL","from":["SF-1","SF-2"],"date":"2026-07-19","venue":"纽约 大都会人寿","status":"pending"},
+    "THIRD": {"id":"THIRD","date":"2026-07-18","venue":"迈阿密花园","status":"pending"}
+  },
+  "topScorers": [
+    {"name":"姆巴佩","team":"法国","goals":6,"assists":2},
+    {"name":"梅西","team":"阿根廷","goals":7,"assists":0},
+    {"name":"哈兰德","team":"挪威","goals":5,"assists":0},
+    {"name":"凯恩","team":"英格兰","goals":5,"assists":0},
+    {"name":"登贝莱","team":"法国","goals":4,"assists":2},
+    {"name":"奥亚萨瓦尔","team":"西班牙","goals":4,"assists":1},
+    {"name":"维尼修斯","team":"巴西","goals":4,"assists":1},
+    {"name":"巴洛贡","team":"美国","goals":3,"assists":0},
+    {"name":"C罗","team":"葡萄牙","goals":3,"assists":0},
+    {"name":"戴维","team":"加拿大","goals":3,"assists":0}
+  ]
+}
