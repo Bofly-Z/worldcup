@@ -812,8 +812,8 @@ function renderBracket() {
 
   let html = '<div class="bracket-outer"><div class="bracket-inner">';
 
-  // R16 column (widest)
-  html += '<div class="bracket-col" style="flex:1.2;min-width:160px"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
+  // R16 column
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
     html += `<div class="bracket-node done">
@@ -825,7 +825,7 @@ function renderBracket() {
   html += '</div></div>';
 
   // QF column
-  html += '<div class="bracket-col" style="flex:0.9;min-width:140px"><div class="bracket-label">🏟️ ¼ 决赛</div><div class="bracket-round" id="brQF">';
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ¼ 决赛</div><div class="bracket-round" id="brQF">';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
     html += `<div class="bracket-node pred">
@@ -838,7 +838,7 @@ function renderBracket() {
   html += '</div></div>';
 
   // SF column
-  html += '<div class="bracket-col" style="flex:0.7;min-width:125px"><div class="bracket-label">🏟️ ½ 决赛</div><div class="bracket-round" id="brSF">';
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ½ 决赛</div><div class="bracket-round" id="brSF">';
   sfSlots.forEach((sf,idx) => {
     html += `<div class="bracket-node pred">
       <div class="bn-head">${sf.date} · ${sf.venue}</div>`;
@@ -850,8 +850,8 @@ function renderBracket() {
   });
   html += '</div></div>';
 
-  // Final + Champion (narrowest)
-  html += '<div class="bracket-col" style="flex:0.6;min-width:115px"><div class="bracket-label">🏆 决赛</div><div class="bracket-round" id="brFinal">';
+  // Final + Champion
+  html += '<div class="bracket-col"><div class="bracket-label">🏆 决赛</div><div class="bracket-round" id="brFinal">';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
