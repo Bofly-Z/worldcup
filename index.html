@@ -696,7 +696,18 @@ function updateAllVisibleViews() {
 // RENDERERS
 // ===================================================================
 
+// Check if all R16 matches are done → advance to QF view
+function getCurrentRound() {
+  let r16Done = 0;
+  R16_MATCHES.forEach(m => { if (matchResultsMap[DATA_ID[m.id]]) r16Done++; });
+  return r16Done >= 8 ? 'QF' : 'R16';
+}
+
 function renderR16() {
+  const round = getCurrentRound();
+  const tabBtn = document.querySelectorAll('.tab-btn')[0];
+  if (tabBtn) tabBtn.textContent = round === 'QF' ? '📅 8强对阵' : '📅 16强对阵';
+
   let html = '';
   const grouped = {};
   R16_MATCHES.forEach(m => {
@@ -771,6 +782,62 @@ function renderR16() {
     });
     html += '</div>';
   }
+  // If all R16 done, also show QF match cards
+  if (round === 'QF') {
+    html += `<div class="section-title" style="margin-top:28px">🗓️ ¼ 决赛对阵</div><div class="card-grid">`;
+    QF_PATHS.forEach(qf => {
+      const dk = DATA_ID[qf.id];
+      const done = matchResultsMap[dk];
+      // Find the two teams
+      let t1 = '?', t2 = '?';
+      const r16a = matchResultsMap[DATA_ID[qf.from[0]]];
+      const r16b = matchResultsMap[DATA_ID[qf.from[1]]];
+      if (r16a) t1 = r16a.winner;
+      if (r16b) t2 = r16b.winner;
+
+      let scoreHTML = '<span class="vs-dot">VS</span>';
+      if (done) {
+        const penStr = (done.ps !== null && done.ps !== undefined) ? ` (${done.ps}-${done.pa} 点球)` : '';
+        scoreHTML = `<span class="card-score">${done.hs} - ${done.as}${penStr}</span>`;
+      }
+
+      html += `<div class="card" style="${done ? 'border-left:3px solid var(--green);' : ''}">
+        <div class="card-top">
+          <span class="card-tag">${done ? '✅ 已完赛' : '¼ 决赛 · ' + qf.venue}</span>
+          <span>${qf.date}</span>
+        </div>
+        <div class="match-line">
+          <span class="team"><span class="f">${t1 !== '?' ? flag(t1) : '🏳️'}</span><span class="team-name-text">${t1}</span></span>
+          ${scoreHTML}
+          <span class="team"><span class="f">${t2 !== '?' ? flag(t2) : '🏳️'}</span><span class="team-name-text">${t2}</span></span>
+        </div>`;
+
+      if (!done && t1 !== '?' && t2 !== '?') {
+        const p = predictMatch(t1, t2, 0.05);
+        html += `<div class="prob-section">
+          <div class="prob-bar">
+            <div class="home-seg" style="width:${(p.pH*100).toFixed(1)}%">${(p.pH*100).toFixed(1)}%</div>
+            <div class="draw-seg" style="width:${(p.pD*100).toFixed(1)}%">${(p.pD*100).toFixed(1)}%</div>
+            <div class="away-seg" style="width:${(p.pA*100).toFixed(1)}%">${(p.pA*100).toFixed(1)}%</div>
+          </div>
+          <div class="prob-labels">
+            <span><span class="prob-dot h"></span> ${t1} <b>${(p.pH*100).toFixed(1)}%</b></span>
+            <span><span class="prob-dot d"></span> 平局 <b>${(p.pD*100).toFixed(1)}%</b></span>
+            <span><span class="prob-dot a"></span> ${t2} <b>${(p.pA*100).toFixed(1)}%</b></span>
+          </div>
+        </div>
+        <div class="score-row">
+          最可能比分：${p.scores.map(s => `<span class="score-chip">${s.s} <em>${(s.p*100).toFixed(1)}%</em></span>`).join('')}
+        </div>`;
+      }
+      if (done) {
+        html += `<div style="margin-top:6px;font-weight:700;color:var(--green)">✅ ${done.winner} 晋级！</div>`;
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
   document.getElementById('r16Cards').innerHTML = html;
 }
 
