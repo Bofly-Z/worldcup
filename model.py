@@ -78,8 +78,8 @@ def team_power(name):
     tournDefRaw = defGaScore * 0.55 + defCsScore * 0.35 + defXgScore * 0.10 + max(0, possNorm) * 0.10
     tournDef = 0.20 + tournDefRaw * 0.80  # calibrated to Elo scale ~0.5-1.3
 
-    dynAtt = t['att'] * 0.20 + tournAtt * 0.80
-    dynDef = t['def'] * 0.20 + tournDef * 0.80
+    dynAtt = t['att'] * 0.40 + tournAtt * 0.60
+    dynDef = t['def'] * 0.40 + tournDef * 0.60
 
     score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10
     return {'att': dynAtt, 'def': dynDef, 'score': score,
