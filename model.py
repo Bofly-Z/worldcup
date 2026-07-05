@@ -58,8 +58,14 @@ def team_power(name):
     playerS = min(0.95, max(0.05, 0.50 + starZ * 0.28))
     momS = min(0.90, max(0.10, 0.50 + t['mom'] * 2.5))
 
+    # Dynamic att/def: blend Elo base with actual tournament goals
+    matches = 4
+    gfRate = t['gf'] / matches
+    gaRate = t['ga'] / matches
+    dynAtt = t['att'] + (gfRate - 1.25) * 0.18
+    dynDef = t['def'] + (1.25 - gaRate) * 0.18
     score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10
-    return {'att': t['att'], 'def': t['def'], 'score': score,
+    return {'att': dynAtt, 'def': dynDef, 'score': score,
             'tourn': tournS, 'elo': eloS, 'player': playerS, 'mom': momS}
 
 # ---- Predict single match (analytical) ----
