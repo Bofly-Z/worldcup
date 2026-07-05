@@ -871,7 +871,7 @@ function renderBracket() {
   html += '<div class="bracket-round"><div class="bracket-label">🏟️ 16 强</div>';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
-    if (idx === 4) html += '<div class="sf-divider">▼ 下半区 ▼</div>';
+    if (idx === 4) html += '<div class="sf-divider">· · ·</div>';
     html += `<div class="bracket-node done">
       <div class="bn-head">${m.date.split(' ')[0].replace('月','/').replace('日','')} · ${m.venue.slice(0,8)}</div>
       <div class="bn-row"><span class="bn-team"><span>${flag(m.h)}</span> ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
@@ -884,7 +884,7 @@ function renderBracket() {
   html += '<div class="bracket-round"><div class="bracket-label">🏟️ ¼ 决赛</div>';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
-    if (idx === 2) html += '<div class="sf-divider">▼ 下半区 ▼</div>';
+    if (idx === 2) html += '<div class="sf-divider">· · ·</div>';
     html += `<div class="bracket-node pred">
       <div class="bn-head">${qf.date} · ${qf.venue}</div>
       <div class="bn-row"><span class="bn-team"><span>${flag(qf.adv1)}</span> ${qf.adv1}</span><span class="bn-pct">${(r1.qfPct||0).toFixed(0)}%</span></div>
