@@ -24,7 +24,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 a{color:var(--blue);text-decoration:none}
 
 /* Header */
-.top-bar{background:#0f172a;color:#fff;text-align:center;font-size:.75rem;padding:6px 16px;color:#94a3b8}
+.top-bar{background:#0f172a;color:#94a3b8;text-align:center;font-size:.75rem;padding:6px 16px}
 .header{background:linear-gradient(160deg,#0f172a 0%,#1c2541 50%,#1a2744 100%);color:#fff;padding:36px 20px 24px;text-align:center}
 .header h1{font-size:2rem;font-weight:800;letter-spacing:-.025em;margin-bottom:6px}
 .header h1 .trophy{display:inline-block;animation:bounce 2s infinite}
@@ -78,7 +78,7 @@ a{color:var(--blue);text-decoration:none}
 /* Table */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--rad);background:var(--card)}
 .tbl{width:100%;border-collapse:collapse;font-size:.87rem}
-.tbl thead th{background:#f1f5f9;font-weight:700;color:var(--ink2);font-size:.77rem;padding:11px 10px;border-bottom:2px solid var(--line2);text-align:center;white-space:nowrap;position:sticky;top:0}
+.tbl thead th{background:#f1f5f9;font-weight:700;color:var(--ink2);font-size:.77rem;padding:11px 10px;border-bottom:2px solid var(--line2);text-align:center;white-space:nowrap;position:sticky;top:0;z-index:2}
 .tbl td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
 .tbl .tl{text-align:left;font-weight:600}
 .tbl tbody tr:hover td{background:var(--blue-bg)}
@@ -421,8 +421,11 @@ function teamPower(name) {
   return {att:t.att, def:t.def, score, elo:eloS, tourn:tournS, player:playerS, mom:momS, data:t};
 }
 
-// Predict single match
+// Predict single match (with memoization)
+const _predCache = {};
 function predictMatch(h, a, homeAdv = 0.05) {
+  const key = `${h}|${a}|${homeAdv}`;
+  if (_predCache[key]) return _predCache[key];
   const sH = teamPower(h), sA = teamPower(a);
   const lH = Math.exp(sH.att - sA.def + 0.12 + homeAdv);
   const lA = Math.exp(sA.att - sH.def + 0.12);
@@ -433,7 +436,9 @@ function predictMatch(h, a, homeAdv = 0.05) {
       if (dc.joint[i] && dc.joint[i][j] && dc.joint[i][j] > 0.004)
         scores.push({s:`${i}-${j}`, p:dc.joint[i][j]});
   scores.sort((a,b) => b.p - a.p);
-  return {h, a, pH:dc.pH, pD:dc.pD, pA:dc.pA, lH, lA, scores:scores.slice(0,4)};
+  const result = {h, a, pH:dc.pH, pD:dc.pD, pA:dc.pA, lH, lA, scores:scores.slice(0,4)};
+  _predCache[key] = result;
+  return result;
 }
 
 // Simulate one knockout match (includes ET + pens)
@@ -447,25 +452,25 @@ function simMatch(h, a, homeAdv = 0.05, matchKey = null) {
   const sH = teamPower(h), sA = teamPower(a);
   const lH = Math.exp(sH.att - sA.def + 0.12 + homeAdv);
   const lA = Math.exp(sA.att - sH.def + 0.12);
-  let gh = 0, ga = 0;
+  let gh = -1, ga = -1;
   let cH = 0, cA = 0;
   const r1 = Math.random(), r2 = Math.random();
   for (let k = 0; k <= 20; k++) {
-    cH += pois(k, lH); if (r1 < cH && gh === 0) gh = k;
-    cA += pois(k, lA); if (r2 < cA && ga === 0) ga = k;
-    if (gh > 0 && ga > 0) break;
+    cH += pois(k, lH); if (r1 < cH && gh === -1) gh = k;
+    cA += pois(k, lA); if (r2 < cA && ga === -1) ga = k;
+    if (gh !== -1 && ga !== -1) break;
   }
   // Extra time if draw
   if (gh === ga) {
     const etLam = 0.32;
-    let eH = 0, eA = 0, ceH = 0, ceA = 0;
+    let eH = -1, eA = -1, ceH = 0, ceA = 0;
     const re1 = Math.random(), re2 = Math.random();
     for (let k = 0; k <= 10; k++) {
       ceH += pois(k, etLam * (1 + sH.att * 0.2));
-      if (re1 < ceH && eH === 0) eH = k;
+      if (re1 < ceH && eH === -1) eH = k;
       ceA += pois(k, etLam * (1 + sA.att * 0.2));
-      if (re2 < ceA && eA === 0) eA = k;
-      if (eH > 0 && eA > 0) break;
+      if (re2 < ceA && eA === -1) eA = k;
+      if (eH !== -1 && eA !== -1) break;
     }
     gh += eH; ga += eA;
     // Penalties if still tied
@@ -479,9 +484,6 @@ function simMatch(h, a, homeAdv = 0.05, matchKey = null) {
 
 // Full Monte Carlo — uses data.json results, runs in async chunks
 let mcCache = null;
-let mcRunning = false;
-let mcProgress = 0;
-
 // Map internal IDs to data.json IDs
 const DATA_ID = {
   "R16A":"R16-1","R16B":"R16-2","R16C":"R16-3","R16D":"R16-4",
@@ -531,18 +533,16 @@ function runOneMCSim(acc) {
 // Async chunked MC — yields to browser every CHUNK iterations
 function runMCAsync(totalN, chunkSize, callback) {
   const acc = makeMCAccum();
-  mcRunning = true;
-  mcProgress = 0;
+  let _mcRunning = true;
 
   function processChunk() {
     const start = performance.now();
     const target = Math.min(acc.total + chunkSize, totalN);
-    // Process chunk — but yield every ~8ms to keep UI alive
+    // Process chunk — yield every ~8ms to keep UI alive
     while (acc.total < target) {
       runOneMCSim(acc);
-      if (performance.now() - start > 8) break; // yield to browser
+      if (performance.now() - start > 8) break;
     }
-    mcProgress = acc.total;
 
     if (acc.total >= totalN) {
       // Done
@@ -554,8 +554,6 @@ function runMCAsync(totalN, chunkSize, callback) {
         acc.res[t].champPct = acc.res[t].champ / acc.total * 100;
       });
       mcCache = acc.res;
-      mcRunning = false;
-      mcProgress = totalN;
       if (callback) callback(acc.res);
       updateAllVisibleViews();
     } else {
@@ -624,7 +622,7 @@ function renderR16() {
 
       let scoreHTML = `<span class="vs-dot">VS</span>`;
       if (done) {
-        const penStr = done.ps ? ` (${done.ps}-${done.pa} 点球)` : '';
+        const penStr = (done.ps !== null && done.ps !== undefined) ? ` (${done.ps}-${done.pa} 点球)` : '';
         scoreHTML = `<span class="card-score">${done.hs} - ${done.as}${penStr}</span>`;
       }
 
@@ -760,8 +758,9 @@ function renderBracket() {
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
-  html += `<div class="champ-name">${flag(topChamps[0][0])} ${topChamps[0][0]}</div>`;
-  html += `<div class="champ-pct">${topChamps[0][1].champPct.toFixed(1)}%</div>`;
+  const top = topChamps[0];
+  html += `<div class="champ-name">${top ? flag(top[0]) + ' ' + top[0] : '待定'}</div>`;
+  html += `<div class="champ-pct">${top ? top[1].champPct.toFixed(1) + '%' : '—'}</div>`;
   html += '<div class="runners">';
   html += topChamps.slice(1).map(([t,r]) => `${flag(t)}${t} ${r.champPct.toFixed(1)}%`).join(' &nbsp;·&nbsp; ');
   html += '</div></div>';

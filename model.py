@@ -96,31 +96,31 @@ def sim_match(h, a, homeAdv=0.05, match_key=None, results_map=None):
     lA = math.exp(sA['att'] - sH['def'] + 0.12)
 
     # Sample goals
-    gh = ga = 0
+    gh = ga = -1
     cH = cA = 0.0
     r1, r2 = random.random(), random.random()
     for k in range(21):
         cH += pois(k, lH)
-        if r1 < cH and gh == 0:
+        if r1 < cH and gh == -1:
             gh = k
         cA += pois(k, lA)
-        if r2 < cA and ga == 0:
+        if r2 < cA and ga == -1:
             ga = k
-        if gh > 0 and ga > 0:
+        if gh != -1 and ga != -1:
             break
 
     # ET if draw
     if gh == ga:
         etLam = 0.32
-        eH = eA = 0
+        eH = eA = -1
         ceH = ceA = 0.0
         re1, re2 = random.random(), random.random()
         for k in range(11):
             ceH += pois(k, etLam * (1 + sH['att'] * 0.2))
-            if re1 < ceH and eH == 0: eH = k
+            if re1 < ceH and eH == -1: eH = k
             ceA += pois(k, etLam * (1 + sA['att'] * 0.2))
-            if re2 < ceA and eA == 0: eA = k
-            if eH > 0 and eA > 0: break
+            if re2 < ceA and eA == -1: eA = k
+            if eH != -1 and eA != -1: break
         gh += eH; ga += eA
 
         # PKs
