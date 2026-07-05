@@ -717,8 +717,9 @@ function renderR16() {
     grouped[day].push(m);
   });
 
+  html += '<div class="card-grid">';
   for (const [day, matches] of Object.entries(grouped)) {
-    html += `<div class="section-title">📅 ${day}</div><div class="card-grid">`;
+    html += `<div class="section-title" style="grid-column:1/-1">📅 ${day}</div>`;
     matches.forEach(m => {
       const dk = DATA_ID[m.id];
       const done = matchResultsMap[dk]; // Check if match completed
@@ -781,8 +782,8 @@ function renderR16() {
         ${resultNote}
       </div>`;
     });
-    html += '</div>';
   }
+  html += '</div>';
   // If all R16 done, also show QF match cards
   if (round === 'QF') {
     html += `<div class="section-title" style="margin-top:28px">🗓️ ¼ 决赛对阵</div><div class="card-grid">`;
