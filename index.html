@@ -438,8 +438,8 @@ function teamPower(name) {
   const tournDef = 0.3 + tournDefRaw * 0.5;
 
   // Blend: 60% tournament, 40% Elo base
-  const dynAtt = t.att * 0.40 + tournAtt * 0.60;
-  const dynDef = t.def * 0.40 + tournDef * 0.60;
+  const dynAtt = t.att * 0.25 + tournAtt * 0.75;
+  const dynDef = t.def * 0.25 + tournDef * 0.75;
 
   const score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10;
   return {att:dynAtt, def:dynDef, score, elo:eloS, tourn:tournS, player:playerS, mom:momS, data:t};
