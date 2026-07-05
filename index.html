@@ -1003,7 +1003,7 @@ function renderPlayers() {
   [...remaining].sort((a,b) => b.tr - a.tr).forEach(p => {
     tblHtml += `<tr>
       <td class="tl"><b>${p.name}</b></td>
-      <td>${flag(p.team)} ${p.team}</td>
+      <td class="tl">${flag(p.team)} ${p.team}</td>
       <td>${p.club}</td>
       <td>${p.age}</td>
       <td><b>${p.g}</b></td>
