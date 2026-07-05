@@ -376,6 +376,16 @@ const PLAYERS = [
 // PREDICTION ENGINE
 // ===================================================================
 
+// Seeded PRNG (Mulberry32) — deterministic results, only changes with data
+let _rngState = 42;
+function seedRNG(seed) { _rngState = seed | 0; }
+function rng() {
+  _rngState = _rngState + 0x6D2B79F5 | 0;
+  let t = Math.imul(_rngState ^ _rngState >>> 15, 1 | _rngState);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296;
+}
+
 // Poisson PMF
 function pois(k, lam) {
   if (lam <= 0.001) return k === 0 ? 1 : 0;
@@ -489,7 +499,7 @@ function simMatch(h, a, homeAdv = 0.05, matchKey = null) {
   const lA = Math.exp(sA.att - sH.def + 0.12);
   let gh = -1, ga = -1;
   let cH = 0, cA = 0;
-  const r1 = Math.random(), r2 = Math.random();
+  const r1 = rng(), r2 = rng();
   for (let k = 0; k <= 20; k++) {
     cH += pois(k, lH); if (r1 < cH && gh === -1) gh = k;
     cA += pois(k, lA); if (r2 < cA && ga === -1) ga = k;
@@ -499,7 +509,7 @@ function simMatch(h, a, homeAdv = 0.05, matchKey = null) {
   if (gh === ga) {
     const etLam = 0.32;
     let eH = -1, eA = -1, ceH = 0, ceA = 0;
-    const re1 = Math.random(), re2 = Math.random();
+    const re1 = rng(), re2 = rng();
     for (let k = 0; k <= 10; k++) {
       ceH += pois(k, etLam * (1 + sH.att * 0.2));
       if (re1 < ceH && eH === -1) eH = k;
@@ -511,7 +521,7 @@ function simMatch(h, a, homeAdv = 0.05, matchKey = null) {
     // Penalties if still tied
     if (gh === ga) {
       const penProb = 0.50 + (sH.score - sA.score) * 0.55;
-      return Math.random() < penProb ? h : a;
+      return rng() < penProb ? h : a;
     }
   }
   return gh > ga ? h : a;
@@ -589,7 +599,6 @@ function runMCAsync(totalN, chunkSize, callback) {
         acc.res[t].champPct = acc.res[t].champ / acc.total * 100;
       });
       mcCache = acc.res;
-      saveMCCache(acc.res);
       if (callback) callback(acc.res);
       updateAllVisibleViews();
     } else {
@@ -616,40 +625,10 @@ function runMCSync(N = 2000) {
   return acc.res;
 }
 
-// localStorage cache for MC results — prevents random changes on refresh
-const MC_CACHE_KEY = 'mc_results_v3';
-const MC_CACHE_TIME = 10 * 60 * 1000; // 10 minutes
-
-function loadMCCache() {
-  try {
-    const raw = localStorage.getItem(MC_CACHE_KEY);
-    if (raw) {
-      const data = JSON.parse(raw);
-      if (data.ts && (Date.now() - data.ts < MC_CACHE_TIME)) {
-        return data.res;
-      }
-    }
-  } catch(e) {}
-  return null;
-}
-
-function saveMCCache(res) {
-  try {
-    localStorage.setItem(MC_CACHE_KEY, JSON.stringify({res, ts: Date.now()}));
-  } catch(e) {}
-}
-
-// Get MC results — localStorage cache → memory cache → run simulation
+// Get MC results — deterministic via seeded RNG, same every time
 function getMC() {
   if (mcCache) return mcCache;
-  const cached = loadMCCache();
-  if (cached) {
-    mcCache = cached;
-    return cached;
-  }
-  const res = runMCSync(2000);
-  saveMCCache(res);
-  return res;
+  return runMCSync(2000);
 }
 
 // Update all visible tab views (called when MC finishes)
@@ -1086,6 +1065,12 @@ console.log('━━━━━━━━━━━━━━━━━━━━━━�
 
 (function init() {
   try {
+    // Seed RNG with data version → deterministic results, only changes with new data
+    let h = 0;
+    for (let i = 0; i < EMBEDDED_DATA.lastUpdated.length; i++)
+      h = ((h << 5) - h + EMBEDDED_DATA.lastUpdated.charCodeAt(i)) | 0;
+    seedRNG(h);
+
     // Phase 1: Load embedded data & render R16 INSTANTLY
     loadData();
     renderR16();
