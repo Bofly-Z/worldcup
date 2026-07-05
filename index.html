@@ -424,7 +424,7 @@ function teamPower(name) {
   const xgRate = t.xgFor / matches;
   const possNorm = (t.poss - 35) / 30;
   const playerNorm = (t.starAvg - 72) / 20;
-  const tournAttRaw = gfRate * 0.45 + xgRate * 0.15 + Math.max(0, possNorm) * 0.15 + Math.max(0, playerNorm) * 0.25;
+  const tournAttRaw = xgRate * 0.35 + gfRate * 0.25 + Math.max(0, possNorm) * 0.15 + Math.max(0, playerNorm) * 0.25;
   const tournAtt = 0.15 + tournAttRaw * 0.50; // wide spread: 0.4~1.2
 
   // Tournament defense: GA conceded inverted (main), CS, xG against, possession

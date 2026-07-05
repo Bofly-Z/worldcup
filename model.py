@@ -65,7 +65,7 @@ def team_power(name):
     xgRate = t['xgFor'] / matches
     possNorm = (t['poss'] - 35) / 30
     playerNorm = (t['starAvg'] - 72) / 20
-    tournAttRaw = gfRate * 0.45 + xgRate * 0.15 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
+    tournAttRaw = xgRate * 0.35 + gfRate * 0.25 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
     tournAtt = 0.15 + tournAttRaw * 0.50
 
     # Tournament defense: GA conceded (main factor)
