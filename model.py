@@ -58,25 +58,25 @@ def team_power(name):
     playerS = min(0.95, max(0.05, 0.50 + starZ * 0.28))
     momS = min(0.90, max(0.10, 0.50 + t['mom'] * 2.5))
 
-    # Tournament-based att/def: 60% tournament, 40% Elo base
+    # Tournament-based att/def: 75% tournament, 25% Elo
     matches = 4
-    # Tournament attack: GF/match, xG/match, possession, player quality
+    # Tournament attack: actual goals matter most
     gfRate = t['gf'] / matches
     xgRate = t['xgFor'] / matches
     possNorm = (t['poss'] - 35) / 30
     playerNorm = (t['starAvg'] - 72) / 20
-    tournAttRaw = gfRate * 0.35 + xgRate * 0.25 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
-    tournAtt = 0.3 + tournAttRaw * 0.5
+    tournAttRaw = gfRate * 0.45 + xgRate * 0.15 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
+    tournAtt = 0.15 + tournAttRaw * 0.50
 
-    # Tournament defense: GA/match (inverted), CS rate, xG against, possession
+    # Tournament defense: GA conceded (main factor)
     gaRate = t['ga'] / matches
     csRate = t['cs'] / matches
     xgAgainstRate = t['xgAgainst'] / matches
     defGaScore = max(0, 1.5 - gaRate * 0.5)
     defCsScore = csRate * 1.5
     defXgScore = max(0, 1.2 - xgAgainstRate * 0.4)
-    tournDefRaw = defGaScore * 0.40 + defCsScore * 0.25 + defXgScore * 0.20 + max(0, possNorm) * 0.15
-    tournDef = 0.3 + tournDefRaw * 0.5
+    tournDefRaw = defGaScore * 0.45 + defCsScore * 0.25 + defXgScore * 0.15 + max(0, possNorm) * 0.15
+    tournDef = 0.15 + tournDefRaw * 0.55
 
     dynAtt = t['att'] * 0.25 + tournAtt * 0.75
     dynDef = t['def'] * 0.25 + tournDef * 0.75
