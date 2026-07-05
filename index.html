@@ -91,9 +91,8 @@ a{color:var(--blue);text-decoration:none}
 }
 
 /* ═══════════════ MATCH CARDS ═══════════════ */
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;max-width:100%}
-@media(min-width:1600px){.card-grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:2000px){.card-grid{grid-template-columns:repeat(4,1fr)}}
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
+@media(max-width:768px){.card-grid{grid-template-columns:1fr}}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--rad);
   padding:18px 20px;box-shadow:var(--shadow-sm);transition:all .25s;
