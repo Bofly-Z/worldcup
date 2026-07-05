@@ -159,8 +159,7 @@ a{color:var(--blue);text-decoration:none}
 /* ═══════════════ BRACKET TREE ═══════════════ */
 .bracket-outer{overflow-x:auto;padding:8px 0}
 .bracket-inner{display:flex;gap:24px;min-width:1050px;padding:16px 10px;align-items:stretch}
-.bracket-round{display:grid;grid-template-rows:repeat(8,1fr);min-width:155px;gap:2px}
-.bracket-round.wide{min-width:190px;flex:1.3}
+.bracket-round{display:grid;grid-template-rows:repeat(8,1fr);gap:2px}
 .bracket-col{display:flex;flex-direction:column}
 .bracket-col .bracket-label{flex-shrink:0}
 .bracket-col .bracket-round{flex:1}
@@ -234,8 +233,7 @@ a{color:var(--blue);text-decoration:none}
   .card-grid{grid-template-columns:1fr}
   .insight-grid{grid-template-columns:1fr 1fr}
   .bracket-inner{min-width:900px}
-  .bracket-round{min-width:120px}
-  .bracket-round.wide{min-width:160px}
+  .bracket-inner{gap:14px}
   .tabs{flex-wrap:nowrap;padding:4px}
   .tab-btn{padding:10px 14px;font-size:.78rem}
   .container{padding:0 14px}
@@ -814,8 +812,8 @@ function renderBracket() {
 
   let html = '<div class="bracket-outer"><div class="bracket-inner">';
 
-  // R16 column
-  html += '<div class="bracket-col"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
+  // R16 column (widest)
+  html += '<div class="bracket-col" style="flex:1.2;min-width:160px"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
     html += `<div class="bracket-node done">
@@ -827,7 +825,7 @@ function renderBracket() {
   html += '</div></div>';
 
   // QF column
-  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ¼ 决赛</div><div class="bracket-round" id="brQF">';
+  html += '<div class="bracket-col" style="flex:0.9;min-width:140px"><div class="bracket-label">🏟️ ¼ 决赛</div><div class="bracket-round" id="brQF">';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
     html += `<div class="bracket-node pred">
@@ -840,7 +838,7 @@ function renderBracket() {
   html += '</div></div>';
 
   // SF column
-  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ½ 决赛</div><div class="bracket-round" id="brSF">';
+  html += '<div class="bracket-col" style="flex:0.7;min-width:125px"><div class="bracket-label">🏟️ ½ 决赛</div><div class="bracket-round" id="brSF">';
   sfSlots.forEach((sf,idx) => {
     html += `<div class="bracket-node pred">
       <div class="bn-head">${sf.date} · ${sf.venue}</div>`;
@@ -852,8 +850,8 @@ function renderBracket() {
   });
   html += '</div></div>';
 
-  // Final + Champion
-  html += '<div class="bracket-col" style="flex:1.3"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div><div class="bracket-round" id="brFinal">';
+  // Final + Champion (narrowest)
+  html += '<div class="bracket-col" style="flex:0.6;min-width:115px"><div class="bracket-label">🏆 决赛</div><div class="bracket-round" id="brFinal">';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
