@@ -45,8 +45,8 @@ QF_PATHS = [
 ]
 
 SF_PATHS = [
-    {"id":"SF-1","from":["QF-1","QF-2"],"date":"7月14日","venue":"达拉斯"},
-    {"id":"SF-2","from":["QF-3","QF-4"],"date":"7月15日","venue":"亚特兰大"},
+    {"id":"SF-1","from":["QF-1","QF-3"],"date":"7月14日","venue":"达拉斯"},
+    {"id":"SF-2","from":["QF-2","QF-4"],"date":"7月15日","venue":"亚特兰大"},
 ]
 
 # ---- Star players ----
@@ -173,6 +173,106 @@ R32_RESULTS = [
     {"h":"阿根廷","a":"佛得角","hs":3,"as":2,"winner":"阿根廷"},
     {"h":"哥伦比亚","a":"加纳","hs":1,"as":0,"winner":"哥伦比亚"},
 ]
+
+# ---- Opponent strength estimation ----
+# 预计算非 R16 球队的 Elo 估算（含小组难度调整 + 迭代校准）
+
+def _build_opponent_elo_estimates():
+    """迭代估算所有非 R16 球队 Elo，考虑小组难度。
+
+    核心思路：R16 球队在小组拿 9 分 → 小组较弱，对手积分含金量低；
+    R16 球队只拿 7 分 → 小组竞争激烈，对手积分含金量高。
+    小组难度 = (12 - R16积分) / 3，即 9 分组=1.0，7 分组=1.67
+    """
+    estimates = {}
+
+    # 先算每组的小组难度系数
+    group_difficulty = {}
+    for group_name, teams in GROUPS.items():
+        r16_pts = 9
+        for t in teams:
+            if t['team'] in TEAMS:
+                r16_pts = t['p']
+                break
+        group_difficulty[group_name] = (12 - r16_pts) / 3  # 1.0 ~ 1.67
+
+    # 第一轮：用难度系数调整后的积分估算
+    for group_name, teams in GROUPS.items():
+        diff = group_difficulty[group_name]
+        for t in teams:
+            if t['team'] not in TEAMS:
+                adj_p = t['p'] * diff
+                adj_gd = t['gd'] * diff
+                estimates[t['team']] = 1580 + 28 * adj_p + 14 * adj_gd
+
+    # 第二轮：迭代一次，用第一轮结果重新算小组平均，再做微调
+    for group_name, teams in GROUPS.items():
+        group_elos = []
+        for t in teams:
+            if t['team'] in TEAMS:
+                group_elos.append(TEAMS[t['team']]['elo'])
+            elif t['team'] in estimates:
+                group_elos.append(estimates[t['team']])
+        group_avg = sum(group_elos) / len(group_elos) if group_elos else 1700
+
+        for t in teams:
+            if t['team'] not in TEAMS:
+                # 在强组拿分含金量更高：用该组平均 Elo 相对于全局做微调
+                group_bonus = (group_avg - 1700) * 0.15
+                estimates[t['team']] += group_bonus
+
+    return estimates
+
+
+_ELO_ESTIMATES_CACHE = None
+
+
+def estimate_opponent_elo(team_name):
+    """估算任意球队 Elo（R16 球队用真实值，其他用小组难度迭代估算）"""
+    global _ELO_ESTIMATES_CACHE
+    if team_name in TEAMS:
+        return TEAMS[team_name]['elo']
+    if _ELO_ESTIMATES_CACHE is None:
+        _ELO_ESTIMATES_CACHE = _build_opponent_elo_estimates()
+    return _ELO_ESTIMATES_CACHE.get(team_name, 1580)
+
+
+def get_team_opponents(team_name):
+    """找出某队全部 4 个对手（3 小组 + 1 R32）"""
+    t = TEAMS.get(team_name)
+    if not t:
+        return []
+    opponents = []
+    group_name = t['group']
+    if group_name in GROUPS:
+        for team in GROUPS[group_name]:
+            if team['team'] != team_name:
+                opponents.append(team['team'])
+    for m in R32_RESULTS:
+        if m['h'] == team_name:
+            opponents.append(m['a'])
+        elif m['a'] == team_name:
+            opponents.append(m['h'])
+    return opponents
+
+
+def get_opponent_adjustment(team_name):
+    """计算对手强度调整因子（>1 = 对手更强，赛果含金量更高）"""
+    opponents = get_team_opponents(team_name)
+    if not opponents:
+        return 1.0
+    # 该队对手平均 Elo
+    opp_elos = [estimate_opponent_elo(o) for o in opponents]
+    avg_opp_elo = sum(opp_elos) / len(opp_elos)
+    # 全局基线：全部 16 队对手的平均 Elo
+    all_opp_elos = []
+    for t in TEAMS:
+        all_opp_elos.extend([estimate_opponent_elo(o) for o in get_team_opponents(t)])
+    baseline = sum(all_opp_elos) / len(all_opp_elos) if all_opp_elos else avg_opp_elo
+    # 限制调整幅度，防止极端值
+    adj = avg_opp_elo / baseline
+    return min(1.12, max(0.88, adj))
+
 
 FLAGS = {
     "阿根廷":"🇦🇷","西班牙":"🇪🇸","法国":"🇫🇷","巴西":"🇧🇷","英格兰":"🏴󠁧󠁢󠁥󠁮󠁧󠁿",

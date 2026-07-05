@@ -2,7 +2,7 @@
 # 2026 World Cup Prediction — Dixon-Coles + Monte Carlo
 # ============================================================
 import math, random, time
-from data import TEAMS, R16_MATCHES, QF_PATHS, SF_PATHS, load_match_results
+from data import TEAMS, R16_MATCHES, QF_PATHS, SF_PATHS, load_match_results, get_opponent_adjustment
 
 # ---- Poisson PMF ----
 def pois(k, lam):
@@ -45,38 +45,46 @@ def team_power(name):
     if not t:
         return {'att': 0, 'def': 0, 'score': 0.3}
 
+    # ---- 对手强度调整（>1 = 对手更强，赛果含金量更高） ----
+    opp_adj = get_opponent_adjustment(name)
+
+    # 调整后赛事数据：对手越强，进球含金量↑，失球可原谅度↑
+    adj_gf  = t['gf'] * opp_adj
+    adj_ga  = t['ga'] / max(0.2, opp_adj)
+    adj_xgFor = t['xgFor'] * opp_adj
+    adj_xgAgainst = t['xgAgainst'] / max(0.2, opp_adj)
+    adj_cs  = min(4, t['cs'] * opp_adj)  # 零封最多 4 场
+
     eloZ = (t['elo'] - 1780) / 180
     eloS = min(0.92, max(0.08, 0.50 + eloZ * 0.26))
 
-    xgDiff = t['xgFor'] - t['xgAgainst']
+    xgDiff = adj_xgFor - adj_xgAgainst
     xgS = min(0.95, max(0.05, 0.50 + xgDiff / 14))
-    gfRatio = t['gf'] / max(1, t['ga'])
+    gfRatio = adj_gf / max(1, adj_ga)
     goalS = min(0.95, max(0.05, 0.50 + (gfRatio - 1.5) / 5))
-    tournS = xgS * 0.55 + goalS * 0.30 + (t['cs'] / 5) * 0.15
+    tournS = xgS * 0.55 + goalS * 0.30 + (adj_cs / 5) * 0.15
 
     starZ = (t['starAvg'] - 74) / 18
     playerS = min(0.95, max(0.05, 0.50 + starZ * 0.28))
     momS = min(0.90, max(0.10, 0.50 + t['mom'] * 2.5))
 
-    # Tournament-based att/def: 75% tournament, 25% Elo
+    # Tournament-based att/def（使用调整后数据）
     matches = 4
-    # Tournament attack: actual goals matter most
-    gfRate = t['gf'] / matches
-    xgRate = t['xgFor'] / matches
+    gfRate = adj_gf / matches
+    xgRate = adj_xgFor / matches
     possNorm = (t['poss'] - 35) / 30
     playerNorm = (t['starAvg'] - 72) / 20
     tournAttRaw = xgRate * 0.40 + gfRate * 0.40 + max(0, possNorm) * 0.20 + max(0, playerNorm) * 0.20
-    tournAtt = 0.30 + tournAttRaw * 0.50  # calibrated to Elo scale ~0.5-1.3
+    tournAtt = 0.30 + tournAttRaw * 0.50
 
-    # Tournament defense: GA conceded (main factor)
-    gaRate = t['ga'] / matches
-    csRate = t['cs'] / matches
-    xgAgainstRate = t['xgAgainst'] / matches
+    gaRate = adj_ga / matches
+    csRate = adj_cs / matches
+    xgAgainstRate = adj_xgAgainst / matches
     defGaScore = max(0, 1.5 - gaRate * 0.5)
     defCsScore = csRate * 1.5
     defXgScore = max(0, 1.2 - xgAgainstRate * 0.4)
     tournDefRaw = defGaScore * 0.55 + defCsScore * 0.35 + defXgScore * 0.10 + max(0, possNorm) * 0.10
-    tournDef = 0.20 + tournDefRaw * 0.80  # calibrated to Elo scale ~0.5-1.3
+    tournDef = 0.20 + tournDefRaw * 0.80
 
     dynAtt = t['att'] * 0.40 + tournAtt * 0.60
     dynDef = t['def'] * 0.40 + tournDef * 0.60
