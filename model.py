@@ -89,7 +89,7 @@ def team_power(name):
     dynAtt = t['att'] * 0.40 + tournAtt * 0.60
     dynDef = t['def'] * 0.40 + tournDef * 0.60
 
-    score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10
+    score = eloS * 0.17 + tournS * 0.50 + playerS * 0.22 + momS * 0.11
     return {'att': dynAtt, 'def': dynDef, 'score': score,
             'tourn': tournS, 'elo': eloS, 'player': playerS, 'mom': momS}
 
