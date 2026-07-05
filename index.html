@@ -161,8 +161,6 @@ a{color:var(--blue);text-decoration:none}
 .bracket-inner{display:flex;gap:0;min-width:1200px;padding:16px 4px;align-items:stretch}
 .bracket-round{display:flex;flex-direction:column;justify-content:space-around;min-width:155px}
 .bracket-round.wide{min-width:190px;flex:1.4}
-.bracket-connector{width:48px;flex-shrink:0;position:relative}
-.bracket-connector svg{width:100%;height:100%;position:absolute;top:0;left:0}
 .bracket-label{
   text-align:center;font-size:.72rem;font-weight:700;color:var(--dim);
   letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase;
@@ -242,7 +240,6 @@ a{color:var(--blue);text-decoration:none}
   .card-grid{grid-template-columns:1fr}
   .insight-grid{grid-template-columns:1fr 1fr}
   .bracket-inner{min-width:960px}
-  .bracket-connector{width:32px}
   .bracket-round{min-width:120px}
   .bracket-round.wide{min-width:150px}
   .tabs{flex-wrap:nowrap;padding:4px}
@@ -746,56 +743,6 @@ function getMC() {
   return runMCSync(2000);
 }
 
-// Draw SVG connector lines between bracket columns
-function drawBracketLines() {
-  const pairs = [
-    {src:'brR16', dst:'brQF', conn:'brC1', map:[[0,1,0],[2,3,1],[4,5,2],[6,7,3]]},
-    {src:'brQF', dst:'brSF', conn:'brC2', map:[[0,1,0],[2,3,1]]},
-    {src:'brSF', dst:'brFinal', conn:'brC3', map:[[0,1,0]]},
-  ];
-
-  pairs.forEach(({src,dst,conn,map}) => {
-    const srcCol = document.getElementById(src);
-    const dstCol = document.getElementById(dst);
-    const connCol = document.getElementById(conn);
-    if (!srcCol || !dstCol || !connCol) return;
-
-    const srcNodes = srcCol.querySelectorAll('.bracket-node');
-    const dstNodes = dstCol.querySelectorAll('.bracket-node, .champion-box');
-    const svg = connCol.querySelector('svg');
-    const connRect = connCol.getBoundingClientRect();
-    const W = connRect.width;
-    const H = connCol.offsetHeight || connCol.parentElement.offsetHeight || 800;
-    const top = connRect.top;
-
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.style.width = W + 'px';
-    svg.style.height = H + 'px';
-
-    let paths = '';
-    const stroke = '#cbd5e1';
-
-    map.forEach(([s1,s2,d]) => {
-      const n1 = srcNodes[s1], n2 = srcNodes[s2], dn = dstNodes[d];
-      if (!n1 || !n2 || !dn) return;
-
-      const y1 = n1.getBoundingClientRect().top + n1.offsetHeight/2 - top;
-      const y2 = n2.getBoundingClientRect().top + n2.offsetHeight/2 - top;
-      const yd = dn.getBoundingClientRect().top + dn.offsetHeight/2 - top;
-      const ym = (y1 + y2) / 2;
-
-      // Two source lines merge into one
-      paths += `<path d="M0 ${y1} L10 ${y1} L10 ${ym}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
-      paths += `<path d="M0 ${y2} L10 ${y2}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
-      paths += `<path d="M0 ${ym} L10 ${ym}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
-      // Merged line to destination
-      paths += `<path d="M${W-10} ${ym} L${W} ${ym} L${W} ${yd}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
-    });
-
-    svg.innerHTML = paths;
-  });
-}
-
 // Update all visible tab views (called when MC finishes)
 function updateAllVisibleViews() {
   Object.keys(rendered).forEach(k => delete rendered[k]);
@@ -803,7 +750,6 @@ function updateAllVisibleViews() {
   if (activePanel) {
     const tabName = activePanel.id.replace('panel-', '');
     switchTab(tabName);
-    if (tabName === 'bracket') { setTimeout(drawBracketLines, 100); setTimeout(drawBracketLines, 400); }
   }
 }
 
@@ -926,10 +872,10 @@ function renderBracket() {
   let html = '<div class="bracket-outer"><div class="bracket-inner">';
 
   // R16 column
-  html += '<div class="bracket-round" id="brR16"><div class="bracket-label">🏟️ 16 强</div>';
+  html += '<div class="bracket-round"><div class="bracket-label">🏟️ 16 强</div>';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
-    html += `<div class="bracket-node done" data-r16="${idx}">
+    html += `<div class="bracket-node done">
       <div class="bn-head">${m.date.split(' ')[0].replace('月','/').replace('日','')} · ${m.venue.slice(0,8)}</div>
       <div class="bn-row"><span class="bn-team">${flag(m.h)} ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
       <div class="bn-row"><span class="bn-team">${flag(m.a)} ${m.a}</span><span class="bn-pct">${(p.pA*100).toFixed(0)}%</span></div>
@@ -937,14 +883,11 @@ function renderBracket() {
   });
   html += '</div>';
 
-  // R16→QF connector
-  html += '<div class="bracket-connector" id="brC1"><svg></svg></div>';
-
   // QF column
-  html += '<div class="bracket-round" id="brQF"><div class="bracket-label">🏟️ ¼ 决赛</div>';
+  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ¼ 决赛</div>';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
-    html += `<div class="bracket-node pred" data-qf="${idx}">
+    html += `<div class="bracket-node pred">
       <div class="bn-head">${qf.date} · ${qf.venue}</div>
       <div class="bn-row"><span class="bn-team">${flag(qf.adv1)} ${qf.adv1}</span><span class="bn-pct">${(r1.qfPct||0).toFixed(0)}%</span></div>
       <div class="bn-row"><span class="bn-team">${flag(qf.adv2)} ${qf.adv2}</span><span class="bn-pct">${(r2.qfPct||0).toFixed(0)}%</span></div>
@@ -953,13 +896,10 @@ function renderBracket() {
   });
   html += '</div>';
 
-  // QF→SF connector
-  html += '<div class="bracket-connector" id="brC2"><svg></svg></div>';
-
   // SF column
-  html += '<div class="bracket-round" id="brSF"><div class="bracket-label">🏟️ ½ 决赛</div>';
+  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ½ 决赛</div>';
   sfSlots.forEach((sf,idx) => {
-    html += `<div class="bracket-node pred" data-sf="${idx}">
+    html += `<div class="bracket-node pred">
       <div class="bn-head">${sf.date} · ${sf.venue}</div>`;
     sf.teams.forEach(t => {
       const r = mc[t] || {};
@@ -969,11 +909,8 @@ function renderBracket() {
   });
   html += '</div>';
 
-  // SF→Final connector
-  html += '<div class="bracket-connector" id="brC3"><svg></svg></div>';
-
   // Final + Champion
-  html += '<div class="bracket-round wide" id="brFinal"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
+  html += '<div class="bracket-round wide"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
@@ -988,10 +925,6 @@ function renderBracket() {
   html += '</div></div>';
   document.getElementById('bracketViz').innerHTML = html;
 
-  // Draw connector lines after DOM settles + retry
-  setTimeout(drawBracketLines, 100);
-  setTimeout(drawBracketLines, 400);
-  window.addEventListener('resize', () => setTimeout(drawBracketLines, 50));
 }
 
 // ---- Team ranking table ----
