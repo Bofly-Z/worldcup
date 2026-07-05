@@ -1,0 +1,26 @@
+name: Auto Update Match Data
+on:
+  schedule:
+    - cron: '7,37 * * * *'  # every 30 minutes
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update timestamp
+        run: |
+          echo "Checking for updates at $(date -u)"
+          # This workflow keeps the repo active
+          # Actual data updates are pushed from local Claude cron
+
+      - name: Commit if changed
+        run: |
+          git config user.name "World Cup Bot"
+          git config user.email "bot@worldcup.local"
+          git add -A
+          git diff --staged --quiet || git commit -m "auto: sync $(date +%m-%d-%H%M)" && git push
