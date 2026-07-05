@@ -1,14 +1,14 @@
 {
   "tasks": [
     {
-      "id": "95218be5",
+      "id": "90b7cb19",
       "cron": "7,37 * * * *",
-      "prompt": "Task: Check for new 2026 World Cup knockout stage results and update data.json.\n\n1. Search for latest World Cup 2026 R16/QF/SF/Final results\n2. If new results found, update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\data.json` with scores, winners, status=\"done\"\n3. Also update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\index.html` embedded data\n4. Update lastUpdated timestamp and top scorers\n5. AFTER updating, run: cd \"C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\" && git add data.json index.html && git commit -m \"auto: 赛果更新 $(date +%m-%d-%H%M)\" && git push origin master\n6. If no new results, output \"数据已是最新\" and do nothing",
-      "createdAt": 1783220866432,
+      "prompt": "Task: Check for new 2026 World Cup knockout stage results and update data.json.\n\n1. Search for latest World Cup 2026 R16/QF/SF/Final results\n2. If new results found, update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\data.json` with scores, winners, status=\"done\"\n3. Also update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\index.html` embedded data\n4. Update lastUpdated timestamp and top scorers\n5. AFTER updating, run: cd \"C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\" && git add data.json index.html && git commit -m \"auto: 赛果更新\" && git push origin master\n6. If no new results, output \"数据已是最新\" and do nothing\n7. STOP running after July 20, 2026 (World Cup ends July 19)",
+      "createdAt": 1783235164046,
       "recurring": true,
       "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
       "createdByPid": 11976,
-      "lastFiredAt": 1783234030843
+      "lastFiredAt": 1783235729698
     }
   ]
 }
