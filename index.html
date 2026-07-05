@@ -291,22 +291,27 @@ const FLAGS = {
 function flag(n){return FLAGS[n]||"🏳️"}
 
 // --- R16 bracket: [home, away, date, venue, homeAdv] ---
+// R16 bracket ordered by SF half: first 4 → SF-1, last 4 → SF-2
 const R16_MATCHES = [
+  // === 上半区 SF-1 (法国+西班牙) ===
   {id:"R16A",h:"加拿大",a:"摩洛哥",date:"7月5日 01:00",venue:"休斯敦 NRG",homeAdv:0.10},
   {id:"R16B",h:"巴拉圭",a:"法国",date:"7月5日 05:00",venue:"费城 林肯金融",homeAdv:0.05},
-  {id:"R16C",h:"巴西",a:"挪威",date:"7月6日 04:00",venue:"纽约 大都会人寿",homeAdv:0.05},
-  {id:"R16D",h:"墨西哥",a:"英格兰",date:"7月6日 08:00",venue:"墨西哥城 阿兹特克",homeAdv:0.28},
   {id:"R16E",h:"葡萄牙",a:"西班牙",date:"7月7日 03:00",venue:"达拉斯 AT&T",homeAdv:0.05},
   {id:"R16F",h:"美国",a:"比利时",date:"7月7日 08:00",venue:"西雅图 流明",homeAdv:0.18},
+  // === 下半区 SF-2 (阿根廷) ===
+  {id:"R16C",h:"巴西",a:"挪威",date:"7月6日 04:00",venue:"纽约 大都会人寿",homeAdv:0.05},
+  {id:"R16D",h:"墨西哥",a:"英格兰",date:"7月6日 08:00",venue:"墨西哥城 阿兹特克",homeAdv:0.28},
   {id:"R16G",h:"阿根廷",a:"埃及",date:"7月8日 00:00",venue:"亚特兰大 梅赛德斯-奔驰",homeAdv:0.05},
   {id:"R16H",h:"瑞士",a:"哥伦比亚",date:"7月8日 04:00",venue:"温哥华 BC Place",homeAdv:0.05},
 ];
 
 // --- QF paths: [R16 winner A, R16 winner B] ---
 const QF_PATHS = [
+  // 上半区 (SF-1): QF-1 + QF-3 — 法国/摩洛哥 + 西班牙/葡萄牙/美国/比利时
   {id:"QF1",from:["R16A","R16B"],date:"7月9日",venue:"福克斯堡",label:"QF1: R16A胜 vs R16B胜"},
-  {id:"QF2",from:["R16C","R16D"],date:"7月11日",venue:"迈阿密",label:"QF2: R16C胜 vs R16D胜"},
   {id:"QF3",from:["R16E","R16F"],date:"7月10日",venue:"洛杉矶",label:"QF3: R16E胜 vs R16F胜"},
+  // 下半区 (SF-2): QF-2 + QF-4 — 巴西/英格兰 + 阿根廷/哥伦比亚
+  {id:"QF2",from:["R16C","R16D"],date:"7月11日",venue:"迈阿密",label:"QF2: R16C胜 vs R16D胜"},
   {id:"QF4",from:["R16G","R16H"],date:"7月12日",venue:"堪萨斯城",label:"QF4: R16G胜 vs R16H胜"},
 ];
 const SF_PATHS = [
