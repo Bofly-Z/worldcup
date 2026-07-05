@@ -58,12 +58,29 @@ def team_power(name):
     playerS = min(0.95, max(0.05, 0.50 + starZ * 0.28))
     momS = min(0.90, max(0.10, 0.50 + t['mom'] * 2.5))
 
-    # Dynamic att/def: blend Elo base with actual tournament goals
+    # Tournament-based att/def: 60% tournament, 40% Elo base
     matches = 4
+    # Tournament attack: GF/match, xG/match, possession, player quality
     gfRate = t['gf'] / matches
+    xgRate = t['xgFor'] / matches
+    possNorm = (t['poss'] - 35) / 30
+    playerNorm = (t['starAvg'] - 72) / 20
+    tournAttRaw = gfRate * 0.35 + xgRate * 0.25 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
+    tournAtt = 0.3 + tournAttRaw * 0.5
+
+    # Tournament defense: GA/match (inverted), CS rate, xG against, possession
     gaRate = t['ga'] / matches
-    dynAtt = t['att'] + (gfRate - 1.25) * 0.18
-    dynDef = t['def'] + (1.25 - gaRate) * 0.18
+    csRate = t['cs'] / matches
+    xgAgainstRate = t['xgAgainst'] / matches
+    defGaScore = max(0, 1.5 - gaRate * 0.5)
+    defCsScore = csRate * 1.5
+    defXgScore = max(0, 1.2 - xgAgainstRate * 0.4)
+    tournDefRaw = defGaScore * 0.40 + defCsScore * 0.25 + defXgScore * 0.20 + max(0, possNorm) * 0.15
+    tournDef = 0.3 + tournDefRaw * 0.5
+
+    dynAtt = t['att'] * 0.40 + tournAtt * 0.60
+    dynDef = t['def'] * 0.40 + tournDef * 0.60
+
     score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10
     return {'att': dynAtt, 'def': dynDef, 'score': score,
             'tourn': tournS, 'elo': eloS, 'player': playerS, 'mom': momS}

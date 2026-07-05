@@ -417,12 +417,30 @@ function teamPower(name) {
   const starZ = (t.starAvg - 74) / 18;
   const playerS = Math.min(0.95, Math.max(0.05, 0.50 + starZ * 0.28));
   const momS = Math.min(0.90, Math.max(0.10, 0.50 + t.mom * 2.5));
-  // Dynamic att/def: blend Elo base with actual tournament goals
-  const matches = 4; // 3 group + 1 R32
+  // Compute tournament-based att/def from multiple factors (40% history, 60% tournament)
+  const matches = 4;
+  // Tournament attack: GF/match, xG/match, possession, avg player rating
   const gfRate = t.gf / matches;
+  const xgRate = t.xgFor / matches;
+  const possNorm = (t.poss - 35) / 30; // normalize possession to ~0-1
+  const playerNorm = (t.starAvg - 72) / 20; // player quality normalized
+  const tournAttRaw = gfRate * 0.35 + xgRate * 0.25 + Math.max(0, possNorm) * 0.15 + Math.max(0, playerNorm) * 0.25;
+  const tournAtt = 0.3 + tournAttRaw * 0.5; // map to ~0.3-1.4 range
+
+  // Tournament defense: GA/match (inverted), CS rate, xG against, possession
   const gaRate = t.ga / matches;
-  const dynAtt = t.att + (gfRate - 1.25) * 0.18;
-  const dynDef = t.def + (1.25 - gaRate) * 0.18;
+  const csRate = t.cs / matches;
+  const xgAgainstRate = t.xgAgainst / matches;
+  const defGaScore = Math.max(0, 1.5 - gaRate * 0.5); // fewer goals conceded = higher score
+  const defCsScore = csRate * 1.5;
+  const defXgScore = Math.max(0, 1.2 - xgAgainstRate * 0.4);
+  const tournDefRaw = defGaScore * 0.40 + defCsScore * 0.25 + defXgScore * 0.20 + Math.max(0, possNorm) * 0.15;
+  const tournDef = 0.3 + tournDefRaw * 0.5;
+
+  // Blend: 60% tournament, 40% Elo base
+  const dynAtt = t.att * 0.40 + tournAtt * 0.60;
+  const dynDef = t.def * 0.40 + tournDef * 0.60;
+
   const score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10;
   return {att:dynAtt, def:dynDef, score, elo:eloS, tourn:tournS, player:playerS, mom:momS, data:t};
 }
