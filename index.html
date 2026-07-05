@@ -159,7 +159,7 @@ a{color:var(--blue);text-decoration:none}
 /* ═══════════════ BRACKET TREE ═══════════════ */
 .bracket-outer{overflow-x:auto;padding:8px 0}
 .bracket-inner{display:flex;gap:24px;min-width:1050px;padding:16px 10px;align-items:stretch}
-.bracket-round{display:grid;grid-template-rows:repeat(8,1fr);gap:2px}
+.bracket-round{display:flex;flex-direction:column;justify-content:space-around;flex:1}
 .bracket-col{display:flex;flex-direction:column}
 .bracket-col .bracket-label{flex-shrink:0}
 .bracket-col .bracket-round{flex:1}
@@ -170,13 +170,10 @@ a{color:var(--blue);text-decoration:none}
   border:1px solid var(--line);box-shadow:var(--shadow-sm);
   height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;
 }
-#brQF .bracket-node{grid-row:span 2}
-#brSF .bracket-node{grid-row:span 4}
-#brFinal .champion-box{grid-row:span 8;display:flex;flex-direction:column;justify-content:center}
 .bracket-node{
   background:var(--card);border:1px solid var(--line);border-radius:var(--rad-sm);
   padding:7px 10px;font-size:.77rem;box-shadow:var(--shadow-sm);
-  transition:all .2s;grid-row:span 1;display:flex;flex-direction:column;justify-content:center;
+  transition:all .2s;margin:3px 0;
 }
 .bracket-node:hover{box-shadow:var(--shadow)}
 .bracket-node.done{border-left:4px solid var(--green);background:linear-gradient(90deg,#ecfdf5,var(--card) 30%)}
