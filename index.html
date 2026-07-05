@@ -105,7 +105,7 @@ a{color:var(--blue);text-decoration:none}
 .card-kickoff{font-weight:600;color:var(--dim);font-size:.82rem}
 .match-line{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 0}
 .team{font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;min-width:0}
-.team .f{font-size:1.4rem;line-height:1;flex-shrink:0}
+.team .f{font-size:1.6rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 1px 2px rgba(0,0,0,.1))}
 .team-name-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vs-dot{color:var(--dim);font-size:.8rem;font-weight:600;flex-shrink:0}
 
@@ -178,8 +178,10 @@ a{color:var(--blue);text-decoration:none}
 .bracket-node.tbd{border:2px dashed var(--line2);text-align:center;color:var(--dim);padding:12px;font-size:.75rem}
 .bracket-node .bn-head{font-size:.63rem;color:var(--dim);margin-bottom:3px;letter-spacing:.03em}
 .bracket-node .bn-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:1px 0}
-.bracket-node .bn-team{font-weight:500;display:flex;align-items:center;gap:5px;min-width:0}
+.bracket-node .bn-team{font-weight:500;display:flex;align-items:center;gap:6px;min-width:0;font-size:.8rem}
+.bracket-node .bn-team .bf{font-size:1.15rem;line-height:1;flex-shrink:0}
 .bracket-node .bn-pct{font-weight:700;color:var(--blue);font-size:.72rem;flex-shrink:0}
+.sf-divider{text-align:center;color:var(--dim);font-size:.65rem;font-weight:700;padding:8px 0;letter-spacing:.05em;border-top:1px dashed var(--line2);border-bottom:1px dashed var(--line2);margin:8px 0}
 .champion-box{
   background:linear-gradient(155deg,#fffbeb,#fef3c7,#fffbeb);
   border:2px solid var(--amber-ln);border-radius:var(--rad);
@@ -229,7 +231,9 @@ a{color:var(--blue);text-decoration:none}
 .form-dot.w{background:#059669}.form-dot.d{background:#94a3b8}.form-dot.l{background:#dc2626}
 
 /* Status bar pulse */
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.top-bar .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ade80;margin-right:6px;animation:pulse 1.5s infinite}
+.top-bar .live-text{color:#4ade80;font-weight:600}
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media(max-width:768px){
@@ -865,8 +869,9 @@ function renderBracket() {
 
   // R16 column
   html += '<div class="bracket-round"><div class="bracket-label">🏟️ 16 强</div>';
-  R16_MATCHES.forEach(m => {
+  R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
+    if (idx === 4) html += '<div class="sf-divider">▼ 下半区 ▼</div>';
     html += `<div class="bracket-node done">
       <div class="bn-head">${m.date.split(' ')[0].replace('月','/').replace('日','')} · ${m.venue.slice(0,8)}</div>
       <div class="bn-row"><span class="bn-team"><span>${flag(m.h)}</span> ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
@@ -877,8 +882,9 @@ function renderBracket() {
 
   // QF column
   html += '<div class="bracket-round"><div class="bracket-label">🏟️ ¼ 决赛</div>';
-  qfSlots.forEach(qf => {
+  qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
+    if (idx === 2) html += '<div class="sf-divider">▼ 下半区 ▼</div>';
     html += `<div class="bracket-node pred">
       <div class="bn-head">${qf.date} · ${qf.venue}</div>
       <div class="bn-row"><span class="bn-team"><span>${flag(qf.adv1)}</span> ${qf.adv1}</span><span class="bn-pct">${(r1.qfPct||0).toFixed(0)}%</span></div>
@@ -1117,8 +1123,7 @@ function loadData() {
 
   const upcomingCount = 8 - (Object.keys(results).filter(k => k.startsWith('R16')).length);
   document.getElementById('statusBar').innerHTML =
-    `📊 数据: ${EMBEDDED_DATA.lastUpdated} · 已完成 ${count} 场 · 16强待踢 ${Math.max(0, upcomingCount)} 场 · ` +
-    `<span style="color:#4ade80">●</span> 就绪`;
+    `<span class="live-dot"></span><span class="live-text">LIVE</span> &nbsp;数据: ${EMBEDDED_DATA.lastUpdated} · 已完成 ${count} 场 · 16强待踢 ${Math.max(0, upcomingCount)} 场`;
 
   console.log(`📊 已加载 ${count} 场比赛数据`);
 }
@@ -1145,8 +1150,7 @@ async function tryLiveUpdate() {
 
     const upcomingCount = 8 - (Object.keys(results).filter(k => k.startsWith('R16')).length);
     document.getElementById('statusBar').innerHTML =
-      `📊 数据: ${data.lastUpdated} · 已完成 ${count} 场 · 16强待踢 ${Math.max(0, upcomingCount)} 场 · ` +
-      `<span style="color:#4ade80">●</span> 已更新`;
+      `<span class="live-dot"></span><span class="live-text">LIVE</span> &nbsp;数据: ${data.lastUpdated} · 已完成 ${count} 场 · 16强待踢 ${Math.max(0, upcomingCount)} 场 · 🔄 已更新`;
     console.log(`🔄 实时数据已更新 (${data.lastUpdated}), ${count} 场比赛`);
   } catch(e) {
     // Silently ignore — embedded data is already loaded
