@@ -158,9 +158,11 @@ a{color:var(--blue);text-decoration:none}
 
 /* ═══════════════ BRACKET TREE ═══════════════ */
 .bracket-outer{overflow-x:auto;padding:8px 0}
-.bracket-inner{display:flex;gap:20px;min-width:1100px;padding:16px 10px}
-.bracket-round{flex:1;display:flex;flex-direction:column;justify-content:space-around;min-width:160px}
-.bracket-round.wide{flex:1.6}
+.bracket-inner{display:flex;gap:0;min-width:1200px;padding:16px 4px;align-items:stretch}
+.bracket-round{display:flex;flex-direction:column;justify-content:space-around;min-width:155px}
+.bracket-round.wide{min-width:190px;flex:1.4}
+.bracket-connector{width:48px;flex-shrink:0;position:relative}
+.bracket-connector svg{width:100%;height:100%;position:absolute;top:0;left:0}
 .bracket-label{
   text-align:center;font-size:.72rem;font-weight:700;color:var(--dim);
   letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase;
@@ -170,7 +172,7 @@ a{color:var(--blue);text-decoration:none}
 .bracket-node{
   background:var(--card);border:1px solid var(--line);border-radius:var(--rad-sm);
   padding:8px 11px;margin:4px 0;font-size:.77rem;box-shadow:var(--shadow-sm);
-  transition:all .2s;
+  transition:all .2s;position:relative;
 }
 .bracket-node:hover{box-shadow:var(--shadow);transform:translateX(2px)}
 .bracket-node.done{border-left:4px solid var(--green);background:linear-gradient(90deg,#ecfdf5,var(--card) 30%)}
@@ -181,7 +183,6 @@ a{color:var(--blue);text-decoration:none}
 .bracket-node .bn-team{font-weight:500;display:flex;align-items:center;gap:6px;min-width:0;font-size:.8rem}
 .bracket-node .bn-team .bf{font-size:1.15rem;line-height:1;flex-shrink:0}
 .bracket-node .bn-pct{font-weight:700;color:var(--blue);font-size:.72rem;flex-shrink:0}
-.sf-divider{text-align:center;color:var(--dim);font-size:.65rem;font-weight:700;padding:8px 0;letter-spacing:.05em;border-top:1px dashed var(--line2);border-bottom:1px dashed var(--line2);margin:8px 0}
 .champion-box{
   background:linear-gradient(155deg,#fffbeb,#fef3c7,#fffbeb);
   border:2px solid var(--amber-ln);border-radius:var(--rad);
@@ -240,7 +241,10 @@ a{color:var(--blue);text-decoration:none}
   .header h1{font-size:1.4rem}
   .card-grid{grid-template-columns:1fr}
   .insight-grid{grid-template-columns:1fr 1fr}
-  .bracket-inner{min-width:880px}
+  .bracket-inner{min-width:960px}
+  .bracket-connector{width:32px}
+  .bracket-round{min-width:120px}
+  .bracket-round.wide{min-width:150px}
   .tabs{flex-wrap:nowrap;padding:4px}
   .tab-btn{padding:10px 14px;font-size:.78rem}
   .container{padding:0 14px}
@@ -742,14 +746,60 @@ function getMC() {
   return runMCSync(2000);
 }
 
+// Draw SVG connector lines between bracket columns
+function drawBracketLines() {
+  const pairs = [
+    {src:'brR16', dst:'brQF', conn:'brC1', map:[[0,1,0],[4,5,1],[2,3,2],[6,7,3]]},
+    {src:'brQF', dst:'brSF', conn:'brC2', map:[[0,1,0],[2,3,1]]},
+    {src:'brSF', dst:'brFinal', conn:'brC3', map:[[0,1,0]]},
+  ];
+
+  pairs.forEach(({src,dst,conn,map}) => {
+    const srcCol = document.getElementById(src);
+    const dstCol = document.getElementById(dst);
+    const connCol = document.getElementById(conn);
+    if (!srcCol || !dstCol || !connCol) return;
+
+    const srcNodes = srcCol.querySelectorAll('.bracket-node');
+    const dstNodes = dstCol.querySelectorAll('.bracket-node, .champion-box');
+    const svg = connCol.querySelector('svg');
+    const rect = connCol.getBoundingClientRect();
+    const connLeft = rect.left;
+    const connWidth = rect.width;
+
+    let paths = '';
+    map.forEach(([s1,s2,d]) => {
+      const n1 = srcNodes[s1], n2 = srcNodes[s2];
+      const dn = dstNodes[d];
+      if (!n1 || !n2 || !dn) return;
+
+      const r1 = n1.getBoundingClientRect();
+      const r2 = n2.getBoundingClientRect();
+      const rd = dn.getBoundingClientRect();
+
+      const y1 = r1.top + r1.height/2 - rect.top;
+      const y2 = r2.top + r2.height/2 - rect.top;
+      const yd = rd.top + rd.height/2 - rect.top;
+      const ym = (y1 + y2) / 2;
+
+      const stroke = '#cbd5e1';
+      paths += `<path d="M0,${y1} L12,${y1} L12,${ym} L0,${ym}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
+      paths += `<path d="M0,${y2} L12,${y2}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
+      paths += `<path d="M${connWidth-12},${ym} L${connWidth},${ym} L${connWidth},${yd} L${connWidth-12},${yd}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
+    });
+
+    svg.innerHTML = paths;
+  });
+}
+
 // Update all visible tab views (called when MC finishes)
 function updateAllVisibleViews() {
-  // Force re-render of all rendered tabs
   Object.keys(rendered).forEach(k => delete rendered[k]);
   const activePanel = document.querySelector('.tab-panel.active');
   if (activePanel) {
     const tabName = activePanel.id.replace('panel-', '');
     switchTab(tabName);
+    if (tabName === 'bracket') setTimeout(drawBracketLines, 100);
   }
 }
 
@@ -872,47 +922,54 @@ function renderBracket() {
   let html = '<div class="bracket-outer"><div class="bracket-inner">';
 
   // R16 column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ 16 强</div>';
+  html += '<div class="bracket-round" id="brR16"><div class="bracket-label">🏟️ 16 强</div>';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
-    if (idx === 4) html += '<div class="sf-divider">· · ·</div>';
-    html += `<div class="bracket-node done">
+    html += `<div class="bracket-node done" data-r16="${idx}">
       <div class="bn-head">${m.date.split(' ')[0].replace('月','/').replace('日','')} · ${m.venue.slice(0,8)}</div>
-      <div class="bn-row"><span class="bn-team"><span>${flag(m.h)}</span> ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
-      <div class="bn-row"><span class="bn-team"><span>${flag(m.a)}</span> ${m.a}</span><span class="bn-pct">${(p.pA*100).toFixed(0)}%</span></div>
+      <div class="bn-row"><span class="bn-team">${flag(m.h)} ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
+      <div class="bn-row"><span class="bn-team">${flag(m.a)} ${m.a}</span><span class="bn-pct">${(p.pA*100).toFixed(0)}%</span></div>
     </div>`;
   });
   html += '</div>';
 
+  // R16→QF connector
+  html += '<div class="bracket-connector" id="brC1"><svg></svg></div>';
+
   // QF column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ¼ 决赛</div>';
+  html += '<div class="bracket-round" id="brQF"><div class="bracket-label">🏟️ ¼ 决赛</div>';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
-    if (idx === 2) html += '<div class="sf-divider">· · ·</div>';
-    html += `<div class="bracket-node pred">
+    html += `<div class="bracket-node pred" data-qf="${idx}">
       <div class="bn-head">${qf.date} · ${qf.venue}</div>
-      <div class="bn-row"><span class="bn-team"><span>${flag(qf.adv1)}</span> ${qf.adv1}</span><span class="bn-pct">${(r1.qfPct||0).toFixed(0)}%</span></div>
-      <div class="bn-row"><span class="bn-team"><span>${flag(qf.adv2)}</span> ${qf.adv2}</span><span class="bn-pct">${(r2.qfPct||0).toFixed(0)}%</span></div>
+      <div class="bn-row"><span class="bn-team">${flag(qf.adv1)} ${qf.adv1}</span><span class="bn-pct">${(r1.qfPct||0).toFixed(0)}%</span></div>
+      <div class="bn-row"><span class="bn-team">${flag(qf.adv2)} ${qf.adv2}</span><span class="bn-pct">${(r2.qfPct||0).toFixed(0)}%</span></div>
       <div style="font-size:.62rem;color:var(--dim);margin-top:2px">备选: ${qf.all1[1]} / ${qf.all2[1]}</div>
     </div>`;
   });
   html += '</div>';
 
+  // QF→SF connector
+  html += '<div class="bracket-connector" id="brC2"><svg></svg></div>';
+
   // SF column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ½ 决赛</div>';
-  sfSlots.forEach(sf => {
-    html += `<div class="bracket-node pred">
+  html += '<div class="bracket-round" id="brSF"><div class="bracket-label">🏟️ ½ 决赛</div>';
+  sfSlots.forEach((sf,idx) => {
+    html += `<div class="bracket-node pred" data-sf="${idx}">
       <div class="bn-head">${sf.date} · ${sf.venue}</div>`;
     sf.teams.forEach(t => {
       const r = mc[t] || {};
-      html += `<div class="bn-row"><span class="bn-team"><span>${flag(t)}</span> ${t}</span><span class="bn-pct">${(r.sfPct||0).toFixed(0)}%</span></div>`;
+      html += `<div class="bn-row"><span class="bn-team">${flag(t)} ${t}</span><span class="bn-pct">${(r.sfPct||0).toFixed(0)}%</span></div>`;
     });
     html += `</div>`;
   });
   html += '</div>';
 
+  // SF→Final connector
+  html += '<div class="bracket-connector" id="brC3"><svg></svg></div>';
+
   // Final + Champion
-  html += '<div class="bracket-round wide"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
+  html += '<div class="bracket-round wide" id="brFinal"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
@@ -926,6 +983,10 @@ function renderBracket() {
 
   html += '</div></div>';
   document.getElementById('bracketViz').innerHTML = html;
+
+  // Draw connector lines after DOM settles
+  setTimeout(drawBracketLines, 50);
+  window.addEventListener('resize', drawBracketLines);
 }
 
 // ---- Team ranking table ----
