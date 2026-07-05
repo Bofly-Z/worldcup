@@ -191,8 +191,7 @@ a{color:var(--blue);text-decoration:none}
   padding:14px 16px;text-align:center;box-shadow:0 8px 32px rgba(180,83,9,.12);
   align-self:center;max-width:90%;
 }
-.champion-box .crown{margin-bottom:2px}
-.champion-box .crown img{animation:bounce 2s infinite}
+.champion-box .crown{font-size:2rem;margin-bottom:2px;animation:bounce 2s infinite}
 .champion-box .champ-name{font-weight:800;font-size:1rem;color:var(--amber)}
 .champion-box .champ-pct{font-weight:800;font-size:1.4rem;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .champion-box .runners{font-size:.68rem;color:var(--dim);margin-top:4px}
@@ -254,7 +253,7 @@ a{color:var(--blue);text-decoration:none}
 
 <!-- ===== HERO ===== -->
 <div class="header">
-  <h1><span class="trophy"><img src="static/trophy.svg" width="40" height="67" style="vertical-align:middle;margin-right:4px" alt=""></span> 2026 世界杯淘汰赛预测</h1>
+  <h1><span class="trophy">🏆</span> 2026 世界杯淘汰赛预测</h1>
   <div class="subtitle">
     综合 <strong>Dixon-Coles 泊松模型</strong> + <strong>赛事 xG 表现(55%)</strong> + <strong>球员俱乐部数据</strong><br>
     蒙特卡洛模拟 <strong>10,000</strong> 次 · 从 16 强到冠军的完整晋级概率 · 历史 Elo 仅占 15%
@@ -922,7 +921,7 @@ function renderBracket() {
   // Final + Champion
   html += '<div class="bracket-col"><div class="bracket-label">🏆 决赛</div><div class="bracket-round" id="brFinal">';
   html += '<div class="champion-box">';
-  html += `<div class="crown"><img src="static/trophy.svg" width="50" height="83" alt=""></div>`;
+  html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
   const top = topChamps[0];
   html += `<div class="champ-name">${top ? flag(top[0]) + ' ' + top[0] : '待定'}</div>`;
