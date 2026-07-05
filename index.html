@@ -152,7 +152,7 @@ a{color:var(--blue);text-decoration:none}
 
 <!-- ===== HERO ===== -->
 <div class="header">
-  <h1><span class="trophy">🏆</span> 2026 世界杯淘汰赛预测</h1>
+  <h1><span class="trophy"><svg width="24" height="42" viewBox="0 0 50 80" style="vertical-align:middle"><defs><linearGradient id="wc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="40%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#92400e"/></linearGradient></defs><ellipse cx="25" cy="10" rx="16" ry="8" fill="url(#wc)"/><path d="M9 14c0 9 4 18 16 18s16-9 16-18V15H9v-1z" fill="url(#wc)"/><rect x="18" y="40" width="14" height="22" rx="2" fill="url(#wc)"/><rect x="14" y="62" width="22" height="3" rx="1.5" fill="url(#wc)"/></svg></span> 2026 世界杯淘汰赛预测</h1>
   <div class="subtitle">
     综合 <strong>Dixon-Coles 泊松模型</strong> + <strong>赛事 xG 表现(55%)</strong> + <strong>球员俱乐部数据</strong><br>
     蒙特卡洛模拟 <strong>10,000</strong> 次 · 从 16 强到冠军的完整晋级概率 · 历史 Elo 仅占 15%
@@ -656,7 +656,7 @@ function renderR16() {
             <span><span class="prob-dot h"></span> ${m.h}胜 <b>${(p.pH*100).toFixed(1)}%</b></span>
             <span><span class="prob-dot d"></span> 平局 <b>${(p.pD*100).toFixed(1)}%</b></span>
             <span><span class="prob-dot a"></span> ${m.a}胜 <b>${(p.pA*100).toFixed(1)}%</b></span>
-            <span>🏆 <b>${fav} (${(favPct*100).toFixed(0)}%)</b></span>
+            <span><svg width="12" height="16" viewBox="0 0 50 80" style="vertical-align:middle"><ellipse cx="25" cy="10" rx="12" ry="6" fill="#fbbf24"/><path d="M12 14c0 6 3 13 13 13s13-7 13-13V15H12v-1z" fill="#fbbf24"/><rect x="19" y="35" width="12" height="15" rx="1.5" fill="#fbbf24"/><rect x="16" y="50" width="18" height="2.5" rx="1" fill="#fbbf24"/></svg> <b>${fav} (${(favPct*100).toFixed(0)}%)</b></span>
           </div>
         </div>
         <div class="score-row">
@@ -756,7 +756,7 @@ function renderBracket() {
   html += '</div>';
 
   // Final + Champion
-  html += '<div class="bracket-round wide"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
+  html += '<div class="bracket-round wide"><div class="bracket-label"><svg width="14" height="20" viewBox="0 0 50 80" style="vertical-align:middle"><defs><linearGradient id="wf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs><ellipse cx="25" cy="10" rx="14" ry="7" fill="url(#wf)"/><path d="M10 14c0 7 4 15 15 15s15-8 15-15V15H10v-1z" fill="url(#wf)"/><rect x="18" y="37" width="14" height="18" rx="2" fill="url(#wf)"/><rect x="15" y="55" width="20" height="3" rx="1.5" fill="url(#wf)"/></svg> 决赛 · 7月19日 · 纽约</div>';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
@@ -781,7 +781,7 @@ function renderTeams() {
   let html = `<table class="tbl"><thead><tr>
     <th>#</th><th>球队</th><th>Elo</th><th>进攻</th><th>防守</th>
     <th>赛事GF/GA</th><th>xG差</th><th>近3场</th><th>综合分</th>
-    <th>8强</th><th>4强</th><th>决赛</th><th>🏆夺冠</th>
+    <th>8强</th><th>4强</th><th>决赛</th><th><svg width="14" height="20" viewBox="0 0 50 80" style="vertical-align:middle"><defs><linearGradient id="ws" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs><ellipse cx="25" cy="10" rx="14" ry="7" fill="url(#ws)"/><path d="M10 14c0 7 4 15 15 15s15-8 15-15V15H10v-1z" fill="url(#ws)"/><rect x="18" y="37" width="14" height="18" rx="2" fill="url(#ws)"/><rect x="15" y="55" width="20" height="3" rx="1.5" fill="url(#ws)"/></svg> 夺冠</th>
   </tr></thead><tbody>`;
 
   sorted.forEach(({name, dat, mc, power}, i) => {
