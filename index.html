@@ -200,7 +200,7 @@ a{color:var(--blue);text-decoration:none}
 }
 .insight-card:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
 .insight-card .i-label{font-size:.72rem;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
-.insight-card .i-value{font-size:2rem;font-weight:800;margin:4px 0;background:linear-gradient(135deg,#1e40af,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.insight-card .i-value{font-size:2rem;font-weight:800;margin:4px 0;background:linear-gradient(135deg,#d97706,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .insight-card .i-sub{font-size:.76rem;color:var(--dim);line-height:1.5}
 
 /* ═══════════════ METHODOLOGY ═══════════════ */
@@ -982,7 +982,7 @@ function renderPlayers() {
   top6.forEach(p => {
     insHtml += `<div class="insight-card">
       <div class="i-label">${flag(p.team)} ${p.team} · ${p.name}</div>
-      <div class="i-value" style="color:${p.tr>8.3?"#b45309":"#2563eb"}">⭐ ${p.tr.toFixed(1)}</div>
+      <div class="i-value" style="color:#b45309">⭐ ${p.tr.toFixed(1)}</div>
       <div class="i-sub">
         俱乐部 24-25: <b>${p.g}球 ${p.a}助</b> · 均分 ${p.cr}<br>
         世界杯: <b>${p.tg}球 ${p.ta}助</b> · 均分 ${p.tr.toFixed(1)}<br>
