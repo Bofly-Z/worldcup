@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100" width="30" height="50">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="30%" stop-color="#fde68a"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="70%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#92400e"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <radialGradient id="globe" cx="0.4" cy="0.35" r="0.6">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </radialGradient>
+  </defs>
+  <!-- Globe on top -->
+  <circle cx="30" cy="12" r="11" fill="url(#globe)" stroke="#92400e" stroke-width="0.5"/>
+  <!-- Globe latitude lines -->
+  <ellipse cx="30" cy="12" rx="11" ry="3" fill="none" stroke="#d97706" stroke-width="0.4" opacity="0.6"/>
+  <ellipse cx="30" cy="12" rx="11" ry="4.5" fill="none" stroke="#d97706" stroke-width="0.4" opacity="0.4"/>
+  <path d="M30 1 C35 4 38 9 38 12 C38 15 35 20 30 23 C25 20 22 15 22 12 C22 9 25 4 30 1" fill="url(#g2)" opacity="0.5"/>
+  <!-- Left figure -->
+  <path d="M19 24 C16 22 13 18 13 14 C13 10 15 8 18 8 L18 12 C16 14 15 17 17 20 L14 26 L18 26 Z" fill="url(#g1)"/>
+  <path d="M19 24 C15 28 10 34 10 40 L16 40 L16 38 C16 34 18 30 20 27 Z" fill="url(#g1)"/>
+  <!-- Right figure -->
+  <path d="M41 24 C44 22 47 18 47 14 C47 10 45 8 42 8 L42 12 C44 14 45 17 43 20 L46 26 L42 26 Z" fill="url(#g1)"/>
+  <path d="M41 24 C45 28 50 34 50 40 L44 40 L44 38 C44 34 42 30 40 27 Z" fill="url(#g1)"/>
+  <!-- Figures' arms reaching up to globe -->
+  <path d="M18 10 C15 7 20 4 24 8" fill="none" stroke="#fbbf24" stroke-width="2"/>
+  <path d="M42 10 C45 7 40 4 36 8" fill="none" stroke="#fbbf24" stroke-width="2"/>
+  <!-- Column -->
+  <rect x="25" y="42" width="10" height="16" rx="1" fill="url(#g1)"/>
+  <!-- Column rings -->
+  <rect x="24" y="44" width="12" height="2" rx="0.5" fill="#fde68a" opacity="0.7"/>
+  <rect x="24" y="54" width="12" height="2" rx="0.5" fill="#fde68a" opacity="0.7"/>
+  <!-- Base -->
+  <rect x="18" y="58" width="24" height="3" rx="1" fill="url(#g1)"/>
+  <ellipse cx="30" cy="58" rx="14" ry="2" fill="url(#g1)"/>
+  <rect x="20" y="61" width="20" height="2" rx="1" fill="#92400e" opacity="0.5"/>
+  <!-- Base bottom -->
+  <rect x="22" y="63" width="16" height="1.5" rx="0.5" fill="url(#g2)"/>
+</svg>

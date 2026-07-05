@@ -1,14 +1,188 @@
 {
   "tasks": [
     {
-      "id": "90b7cb19",
-      "cron": "7,37 * * * *",
-      "prompt": "Task: Check for new 2026 World Cup knockout stage results and update data.json.\n\n1. Search for latest World Cup 2026 R16/QF/SF/Final results\n2. If new results found, update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\data.json` with scores, winners, status=\"done\"\n3. Also update `C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\\index.html` embedded data\n4. Update lastUpdated timestamp and top scorers\n5. AFTER updating, run: cd \"C:\\Users\\HUAWEI\\OneDrive\\Desktop\\星湖街\\世界杯\" && git add data.json index.html && git commit -m \"auto: 赛果更新\" && git push origin master\n6. If no new results, output \"数据已是最新\" and do nothing\n7. STOP running after July 20, 2026 (World Cup ends July 19)",
-      "createdAt": 1783235164046,
-      "recurring": true,
+      "id": "1b518e2d",
+      "cron": "0 8 6 7 *",
+      "prompt": "Search for Brazil vs Norway (R16-3) and Mexico vs England (R16-4) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237661803,
       "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976,
-      "lastFiredAt": 1783235729698
+      "createdByPid": 11976
+    },
+    {
+      "id": "ab20876c",
+      "cron": "0 8 7 7 *",
+      "prompt": "Search for Portugal vs Spain (R16-5) and USA vs Belgium (R16-6) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237680500,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "96b9ea77",
+      "cron": "0 5 8 7 *",
+      "prompt": "Search for Argentina vs Egypt (R16-7) and Switzerland vs Colombia (R16-8) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237710547,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "33428b00",
+      "cron": "0 8 9 7 *",
+      "prompt": "Search for QF-1: France vs Morocco 2026 World Cup quarterfinal result. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237842718,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "662e30f1",
+      "cron": "0 8 10 7 *",
+      "prompt": "Search for QF-3: Portugal/Spain winner vs USA/Belgium winner 2026 World Cup quarterfinal result. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237881891,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "488d4b7c",
+      "cron": "0 8 11 7 *",
+      "prompt": "Search for QF-2: Brazil/Norway winner vs Mexico/England winner 2026 World Cup quarterfinal result. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237898849,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "67c8b8ac",
+      "cron": "0 8 12 7 *",
+      "prompt": "Search for QF-4: Argentina/Egypt winner vs Switzerland/Colombia winner 2026 World Cup quarterfinal result. If found, update data.json and index.html, then git commit + push.",
+      "createdAt": 1783237924356,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "6184934c",
+      "cron": "0 8 14 7 *",
+      "prompt": "Search for both 2026 World Cup semifinal results (SF-1 and SF-2). If found, update data.json and index.html with scores and winners, then git commit + push.",
+      "createdAt": 1783237959363,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "83abb17d",
+      "cron": "0 8 15 7 *",
+      "prompt": "Search for 2026 World Cup second semifinal result. If found, update data.json and index.html with scores and winners, then git commit + push.",
+      "createdAt": 1783237981299,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "227e98c8",
+      "cron": "0 8 18 7 *",
+      "prompt": "Search for 2026 World Cup third place match result. If found, update data.json and index.html with score and winner, then git commit + push.",
+      "createdAt": 1783238011819,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "ae075943",
+      "cron": "0 8 19 7 *",
+      "prompt": "Search for 2026 World Cup FINAL result. Update data.json and index.html with the champion and final score. Then git commit + push.",
+      "createdAt": 1783238092322,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "34013343",
+      "cron": "0 10 6 7 *",
+      "prompt": "[第二次检查] Search for Brazil vs Norway (R16-3) and Mexico vs England (R16-4) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238199694,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "21f11939",
+      "cron": "0 10 7 7 *",
+      "prompt": "[第二次检查] Search for Portugal vs Spain (R16-5) and USA vs Belgium (R16-6) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238263899,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "feff180d",
+      "cron": "0 7 8 7 *",
+      "prompt": "[第二次检查] Search for Argentina vs Egypt (R16-7) and Switzerland vs Colombia (R16-8) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238294228,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "1b2502e7",
+      "cron": "0 10 9 7 *",
+      "prompt": "[第二次检查] Search for QF-1: France vs Morocco 2026 World Cup quarterfinal result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238313656,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "1a5c0e6c",
+      "cron": "0 10 10 7 *",
+      "prompt": "[第二次检查] Search for QF-3 2026 World Cup quarterfinal result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238346146,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "c8db9db1",
+      "cron": "0 10 11 7 *",
+      "prompt": "[第二次检查] Search for QF-2 2026 World Cup quarterfinal result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238384654,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "2bc33a9c",
+      "cron": "0 10 12 7 *",
+      "prompt": "[第二次检查] Search for QF-4 2026 World Cup quarterfinal result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238443932,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "cc165926",
+      "cron": "0 10 14 7 *",
+      "prompt": "[第二次检查] Search for 2026 World Cup semifinal results. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238478761,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "c1360834",
+      "cron": "0 10 15 7 *",
+      "prompt": "[第二次检查] Search for 2026 World Cup second semifinal result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238512645,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "5023e127",
+      "cron": "0 10 18 7 *",
+      "prompt": "[第二次检查] Search for 2026 World Cup third place match result. If first check missed it, update data.json and index.html now, then git commit + push.",
+      "createdAt": 1783238534170,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "d274bed3",
+      "cron": "0 10 19 7 *",
+      "prompt": "[第二次检查] Search for 2026 World Cup FINAL result. If first check missed it, update data.json and index.html with champion and score. Then git commit + push.",
+      "createdAt": 1783238552067,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
+    },
+    {
+      "id": "6acb57cf",
+      "cron": "0 8 20 7 *",
+      "prompt": "[最终确认] Final check - verify all 2026 World Cup results are complete in data.json. If any missing results are found, update them. This is the last scheduled task for this tournament.",
+      "createdAt": 1783238582476,
+      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
+      "createdByPid": 11976
     }
   ]
 }
