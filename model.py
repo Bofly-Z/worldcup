@@ -66,7 +66,7 @@ def team_power(name):
     possNorm = (t['poss'] - 35) / 30
     playerNorm = (t['starAvg'] - 72) / 20
     tournAttRaw = xgRate * 0.35 + gfRate * 0.25 + max(0, possNorm) * 0.15 + max(0, playerNorm) * 0.25
-    tournAtt = 0.15 + tournAttRaw * 0.50
+    tournAtt = 0.30 + tournAttRaw * 0.50  # calibrated to Elo scale ~0.5-1.3
 
     # Tournament defense: GA conceded (main factor)
     gaRate = t['ga'] / matches
@@ -76,7 +76,7 @@ def team_power(name):
     defCsScore = csRate * 1.5
     defXgScore = max(0, 1.2 - xgAgainstRate * 0.4)
     tournDefRaw = defGaScore * 0.45 + defCsScore * 0.25 + defXgScore * 0.15 + max(0, possNorm) * 0.15
-    tournDef = 0.15 + tournDefRaw * 0.55
+    tournDef = 0.20 + tournDefRaw * 0.80  # calibrated to Elo scale ~0.5-1.3
 
     dynAtt = t['att'] * 0.25 + tournAtt * 0.75
     dynDef = t['def'] * 0.25 + tournDef * 0.75
