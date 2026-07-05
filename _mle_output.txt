@@ -1,0 +1,64 @@
+============================================================
+MLE Grid Search: Finding optimal weights
+============================================================
+
+Phase 1: Coarse grid search...
+Total combinations: 6561
+  500/6561... best LL=-405.2
+  1000/6561... best LL=-400.0
+  1500/6561... best LL=-395.6
+  2000/6561... best LL=-395.1
+  2500/6561... best LL=-394.9
+  3000/6561... best LL=-394.9
+  3500/6561... best LL=-394.9
+  4000/6561... best LL=-392.1
+  4500/6561... best LL=-392.0
+  5000/6561... best LL=-392.0
+  5500/6561... best LL=-392.0
+  6000/6561... best LL=-389.6
+  6500/6561... best LL=-389.3
+
+Phase 1 Best: LL=-389.2, n=147
+  w_xg_att=0.400 w_gf_att=0.350 w_poss_att=0.200
+  w_ga_def=0.550 w_cs_def=0.350 w_xga_def=0.100 w_poss_def=0.100
+  elo_blend=0.150
+
+Phase 2: Fine grid refinement...
+
+Phase 2 Best: LL=-387.3
+  w_xg_att=0.400 w_gf_att=0.400 w_poss_att=0.200
+  w_ga_def=0.550 w_cs_def=0.350 w_xga_def=0.100 w_poss_def=0.100
+  elo_blend=0.150
+
+============================================================
+Cross-Validation: 5-fold
+============================================================
+  Fold 1: LL=-87.8, Winner Accuracy=37.9%
+  Fold 2: LL=-80.7, Winner Accuracy=65.5%
+  Fold 3: LL=-79.2, Winner Accuracy=48.3%
+  Fold 4: LL=-82.0, Winner Accuracy=48.3%
+  Fold 5: LL=-97.9, Winner Accuracy=41.9%
+
+  Average CV LL: -85.5
+  Baseline (equal weights): LL comparison shows model is better than random
+
+============================================================
+OPTIMAL WEIGHTS (data-driven, from 147 matches)
+============================================================
+
+进攻参数权重:
+  xG (预期进球):      40%
+  实际进球 (GF):       40%
+  控球率:             20%
+
+防守参数权重:
+  失球少 (GA):        55%
+  零封 (CS):          35%
+  被射xG (xGA):       10%
+  控球率:             10%
+
+赛事 vs 历史混合:
+  历史Elo权重:        15%
+  赛事表现权重:        85%
+
+Results saved to optimal_weights.json

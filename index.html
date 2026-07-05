@@ -158,10 +158,10 @@ a{color:var(--blue);text-decoration:none}
     蒙特卡洛模拟 <strong>10,000</strong> 次 · 从 16 强到冠军的完整晋级概率 · 历史 Elo 仅占 15%
   </div>
   <div class="meta-row">
-    <span class="meta-chip">📈 Elo 历史权重 <strong>15%</strong></span>
-    <span class="meta-chip">🔥 赛事表现权重 <strong>55%</strong></span>
-    <span class="meta-chip">⭐ 球员质量权重 <strong>20%</strong></span>
-    <span class="meta-chip">🚀 近期动量权重 <strong>10%</strong></span>
+    <span class="meta-chip">📈 Elo 历史 <strong>15%</strong> (MLE)</span>
+    <span class="meta-chip">🔥 赛事表现 <strong>85%</strong> (MLE)</span>
+    <span class="meta-chip">⚽ xG+GF 各<strong>40%</strong> (MLE)</span>
+    <span class="meta-chip">🛡️ GA+CS <strong>55+35%</strong> (MLE)</span>
   </div>
 </div>
 
@@ -424,7 +424,7 @@ function teamPower(name) {
   const xgRate = t.xgFor / matches;
   const possNorm = (t.poss - 35) / 30;
   const playerNorm = (t.starAvg - 72) / 20;
-  const tournAttRaw = xgRate * 0.35 + gfRate * 0.25 + Math.max(0, possNorm) * 0.15 + Math.max(0, playerNorm) * 0.25;
+  const tournAttRaw = xgRate * 0.40 + gfRate * 0.40 + Math.max(0, possNorm) * 0.20 + Math.max(0, playerNorm) * 0.20;
   const tournAtt = 0.30 + tournAttRaw * 0.50; // calibrated to Elo scale ~0.5-1.3
 
   // Tournament defense: GA conceded inverted (main), CS, xG against, possession
@@ -434,12 +434,12 @@ function teamPower(name) {
   const defGaScore = Math.max(0, 1.5 - gaRate * 0.5);
   const defCsScore = csRate * 1.5;
   const defXgScore = Math.max(0, 1.2 - xgAgainstRate * 0.4);
-  const tournDefRaw = defGaScore * 0.45 + defCsScore * 0.25 + defXgScore * 0.15 + Math.max(0, possNorm) * 0.15;
+  const tournDefRaw = defGaScore * 0.55 + defCsScore * 0.35 + defXgScore * 0.10 + Math.max(0, possNorm) * 0.10;
   const tournDef = 0.20 + tournDefRaw * 0.80; // calibrated to Elo scale ~0.5-1.3
 
   // Blend: 75% tournament, 25% Elo
-  const dynAtt = t.att * 0.25 + tournAtt * 0.75;
-  const dynDef = t.def * 0.25 + tournDef * 0.75;
+  const dynAtt = t.att * 0.15 + tournAtt * 0.85;
+  const dynDef = t.def * 0.15 + tournDef * 0.85;
 
   const score = eloS * 0.15 + tournS * 0.55 + playerS * 0.20 + momS * 0.10;
   return {att:dynAtt, def:dynDef, score, elo:eloS, tourn:tournS, player:playerS, mom:momS, data:t};
