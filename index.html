@@ -584,6 +584,7 @@ function runMCAsync(totalN, chunkSize, callback) {
         acc.res[t].champPct = acc.res[t].champ / acc.total * 100;
       });
       mcCache = acc.res;
+      saveMCCache(acc.res);
       if (callback) callback(acc.res);
       updateAllVisibleViews();
     } else {
@@ -610,10 +611,40 @@ function runMCSync(N = 2000) {
   return acc.res;
 }
 
-// Get MC results — returns cached if available, otherwise runs quick sync
+// localStorage cache for MC results — prevents random changes on refresh
+const MC_CACHE_KEY = 'mc_results_v2';
+const MC_CACHE_TIME = 10 * 60 * 1000; // 10 minutes
+
+function loadMCCache() {
+  try {
+    const raw = localStorage.getItem(MC_CACHE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.ts && (Date.now() - data.ts < MC_CACHE_TIME)) {
+        return data.res;
+      }
+    }
+  } catch(e) {}
+  return null;
+}
+
+function saveMCCache(res) {
+  try {
+    localStorage.setItem(MC_CACHE_KEY, JSON.stringify({res, ts: Date.now()}));
+  } catch(e) {}
+}
+
+// Get MC results — localStorage cache → memory cache → run simulation
 function getMC() {
   if (mcCache) return mcCache;
-  return runMCSync(2000);
+  const cached = loadMCCache();
+  if (cached) {
+    mcCache = cached;
+    return cached;
+  }
+  const res = runMCSync(2000);
+  saveMCCache(res);
+  return res;
 }
 
 // Update all visible tab views (called when MC finishes)
