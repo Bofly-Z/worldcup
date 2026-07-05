@@ -159,37 +159,42 @@ a{color:var(--blue);text-decoration:none}
 /* ═══════════════ BRACKET TREE ═══════════════ */
 .bracket-outer{overflow-x:auto;padding:8px 0}
 .bracket-inner{display:flex;gap:24px;min-width:1050px;padding:16px 10px;align-items:stretch}
-.bracket-round{display:flex;flex-direction:column;justify-content:space-around;min-width:155px}
-.bracket-round.wide{min-width:200px;flex:1.5}
+.bracket-round{display:grid;grid-template-rows:repeat(8,1fr);min-width:155px;gap:2px}
+.bracket-round.wide{min-width:190px;flex:1.3}
+.bracket-col{display:flex;flex-direction:column}
+.bracket-col .bracket-label{flex-shrink:0}
+.bracket-col .bracket-round{flex:1}
 .bracket-label{
   text-align:center;font-size:.72rem;font-weight:700;color:var(--dim);
-  letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase;
+  letter-spacing:.1em;text-transform:uppercase;
   background:var(--card);padding:6px 10px;border-radius:99px;
   border:1px solid var(--line);box-shadow:var(--shadow-sm);
+  height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;
 }
+#brQF .bracket-node{grid-row:span 2}
+#brSF .bracket-node{grid-row:span 4}
+#brFinal .champion-box{grid-row:span 8;display:flex;flex-direction:column;justify-content:center}
 .bracket-node{
   background:var(--card);border:1px solid var(--line);border-radius:var(--rad-sm);
-  padding:8px 11px;margin:4px 0;font-size:.77rem;box-shadow:var(--shadow-sm);
-  transition:all .2s;position:relative;
+  padding:7px 10px;font-size:.77rem;box-shadow:var(--shadow-sm);
+  transition:all .2s;grid-row:span 1;display:flex;flex-direction:column;justify-content:center;
 }
-.bracket-node:hover{box-shadow:var(--shadow);transform:translateX(2px)}
+.bracket-node:hover{box-shadow:var(--shadow)}
 .bracket-node.done{border-left:4px solid var(--green);background:linear-gradient(90deg,#ecfdf5,var(--card) 30%)}
 .bracket-node.pred{border-left:4px solid var(--blue);background:linear-gradient(90deg,#eff6ff,var(--card) 30%)}
-.bracket-node.tbd{border:2px dashed var(--line2);text-align:center;color:var(--dim);padding:12px;font-size:.75rem}
-.bracket-node .bn-head{font-size:.63rem;color:var(--dim);margin-bottom:3px;letter-spacing:.03em}
-.bracket-node .bn-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:1px 0}
-.bracket-node .bn-team{font-weight:500;display:flex;align-items:center;gap:6px;min-width:0;font-size:.8rem}
-.bracket-node .bn-team .bf{font-size:1.15rem;line-height:1;flex-shrink:0}
-.bracket-node .bn-pct{font-weight:700;color:var(--blue);font-size:.72rem;flex-shrink:0}
+.bracket-node .bn-head{font-size:.63rem;color:var(--dim);margin-bottom:2px;letter-spacing:.03em}
+.bracket-node .bn-row{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:1px 0}
+.bracket-node .bn-team{font-weight:500;display:flex;align-items:center;gap:5px;min-width:0;font-size:.78rem}
+.bracket-node .bn-pct{font-weight:700;color:var(--blue);font-size:.7rem;flex-shrink:0}
 .champion-box{
   background:linear-gradient(155deg,#fffbeb,#fef3c7,#fffbeb);
   border:2px solid var(--amber-ln);border-radius:var(--rad);
-  padding:24px 18px;text-align:center;box-shadow:0 8px 32px rgba(180,83,9,.12);
+  padding:14px 16px;text-align:center;box-shadow:0 8px 32px rgba(180,83,9,.12);
 }
-.champion-box .crown{font-size:2.6rem;margin-bottom:4px;animation:bounce 2s infinite}
-.champion-box .champ-name{font-weight:800;font-size:1.2rem;color:var(--amber)}
-.champion-box .champ-pct{font-weight:800;font-size:2rem;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.champion-box .runners{font-size:.72rem;color:var(--dim);margin-top:8px}
+.champion-box .crown{font-size:2rem;margin-bottom:2px;animation:bounce 2s infinite}
+.champion-box .champ-name{font-weight:800;font-size:1rem;color:var(--amber)}
+.champion-box .champ-pct{font-weight:800;font-size:1.4rem;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.champion-box .runners{font-size:.68rem;color:var(--dim);margin-top:4px}
 
 /* ═══════════════ INSIGHT CARDS ═══════════════ */
 .insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
@@ -201,17 +206,6 @@ a{color:var(--blue);text-decoration:none}
 .insight-card .i-label{font-size:.72rem;color:var(--dim);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 .insight-card .i-value{font-size:2rem;font-weight:800;margin:4px 0}
 .insight-card .i-sub{font-size:.76rem;color:var(--dim);line-height:1.5}
-
-/* ═══════════════ METHODOLOGY ═══════════════ */
-.method-box{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--rad);
-  padding:28px 30px;margin-top:8px;box-shadow:var(--shadow-sm);
-}
-.method-box h2{font-size:1.2rem;margin-bottom:12px;color:var(--ink)}
-.method-box h3{font-size:.95rem;margin:18px 0 8px;color:var(--blue);padding-left:12px;border-left:3px solid var(--blue)}
-.method-box p{font-size:.88rem;color:var(--ink2);margin-bottom:8px}
-.method-box ul{font-size:.88rem;color:var(--ink2);padding-left:22px;margin-bottom:12px}
-.method-box li{margin-bottom:4px}
 
 /* ═══════════════ FOOTER ═══════════════ */
 .footer{
@@ -281,7 +275,6 @@ a{color:var(--blue);text-decoration:none}
   <button class="tab-btn" onclick="switchTab('bracket')">🌳 晋级全景</button>
   <button class="tab-btn" onclick="switchTab('teams')">📊 球队排名</button>
   <button class="tab-btn" onclick="switchTab('players')">⭐ 球星数据</button>
-  <button class="tab-btn" onclick="switchTab('method')">🔬 模型方法</button>
 </div>
 
 <!-- ===== TAB 1: R16 MATCHES ===== -->
@@ -321,56 +314,6 @@ a{color:var(--blue);text-decoration:none}
   <div id="playerDataTable" class="tbl-wrap" style="margin-top:18px"></div>
 </div>
 
-<!-- ===== TAB 5: METHODOLOGY ===== -->
-<div id="panel-method" class="tab-panel">
-  <div class="method-box">
-    <h2>🔬 预测模型完整方法</h2>
-
-    <h3>1. 核心引擎：Dixon-Coles 双变量泊松模型</h3>
-    <p>Dixon & Coles (1997) 提出的足球比分预测经典统计框架。该模型将两队的进球数建模为相互关联的泊松分布：</p>
-    <ul>
-      <li><strong>主队预期进球</strong> λ<sub>H</sub> = exp(ATT<sub>H</sub> − DEF<sub>A</sub> + γ·home)</li>
-      <li><strong>客队预期进球</strong> λ<sub>A</sub> = exp(ATT<sub>A</sub> − DEF<sub>H</sub>)</li>
-      <li><strong>Dixon-Coles 修正项</strong> ρ —— 针对 0-0, 1-0, 0-1, 1-1 四种低比分情况的泊松模型系统性偏差进行修正</li>
-      <li>ATT 和 DEF 参数分别表示球队的攻击强度和防守强度</li>
-    </ul>
-
-    <h3>2. 球队综合评分体系（四维加权）</h3>
-    <ul>
-      <li><strong>① Elo 历史评级 (15%)</strong> — 基于近 5 年所有国家队 A 级赛事。权重较低，因为历史不代表当前赛事状态。</li>
-      <li><strong>② 赛事表现 (55%) — 最高权重</strong> — 本届世界杯截至目前的数据：xG 差异、实际进失球、控球率、射门转化率、零封场次。这是最重要的参考维度。</li>
-      <li><strong>③ 球员质量 (20%)</strong> — 基于 2024-25 赛季五大联赛 + MLS + 沙特联的 WhoScored/SofaScore 场均评分，综合进球参与度、关键传球、过人成功率等。</li>
-      <li><strong>④ 近期动量 (10%)</strong> — 最近 3 场比赛的连胜/连败趋势修正，体现球队状态走向。</li>
-    </ul>
-
-    <h3>3. 蒙特卡洛模拟流程</h3>
-    <ul>
-      <li>每场比赛从泊松分布中采样进球数（含 Dixon-Coles 相关性修正）</li>
-      <li>常规时间平局 → 进入加时赛（30分钟，进球率降低至常规时间的 ~40%）</li>
-      <li>加时仍平 → 点球决胜（基于球队 Elo + 历史点球胜率 + 门将扑救率计算）</li>
-      <li>共运行 <strong>10,000 次</strong>独立模拟，统计各队在 8 强/4 强/决赛/夺冠的晋级频率</li>
-      <li>每轮模拟后更新晋级概率，形成完整的条件概率树</li>
-    </ul>
-
-    <h3>4. 主场优势</h3>
-    <ul>
-      <li>美国/加拿大/墨西哥作为联合主办国，在其本土比赛享有主场加成</li>
-      <li>墨西哥在阿兹特克球场的比赛加成尤为显著（高原+历史胜率）</li>
-    </ul>
-
-    <h3>5. 数据来源</h3>
-    <ul>
-      <li>FIFA 官方排名 & World Football Elo Ratings</li>
-      <li>FBref / WhoScored / Transfermarkt 俱乐部赛季数据</li>
-      <li>FIFA.com / FootyStats 赛事实时 xG 统计</li>
-      <li>Opta 历史对阵数据库</li>
-    </ul>
-
-    <p style="margin-top:18px;padding:12px 16px;background:var(--amber-bg);border:1px solid var(--amber-ln);border-radius:var(--rad-sm);color:var(--amber);font-weight:600;font-size:.88rem">
-      ⚠️ 重要声明：本预测由统计模型自动生成，仅供学习交流与娱乐参考。足球比赛充满不确定性——伤病、红牌、天气、临场战术调整等因素均无法被模型完全捕捉。概率不代表确定性结论，请理性看待。
-    </p>
-  </div>
-</div>
 
 </div><!-- /container -->
 
@@ -872,7 +815,7 @@ function renderBracket() {
   let html = '<div class="bracket-outer"><div class="bracket-inner">';
 
   // R16 column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ 16 强</div>';
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
     html += `<div class="bracket-node done">
@@ -881,10 +824,10 @@ function renderBracket() {
       <div class="bn-row"><span class="bn-team">${flag(m.a)} ${m.a}</span><span class="bn-pct">${(p.pA*100).toFixed(0)}%</span></div>
     </div>`;
   });
-  html += '</div>';
+  html += '</div></div>';
 
   // QF column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ¼ 决赛</div>';
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ¼ 决赛</div><div class="bracket-round" id="brQF">';
   qfSlots.forEach((qf,idx) => {
     const r1 = mc[qf.adv1] || {}, r2 = mc[qf.adv2] || {};
     html += `<div class="bracket-node pred">
@@ -894,10 +837,10 @@ function renderBracket() {
       <div style="font-size:.62rem;color:var(--dim);margin-top:2px">备选: ${qf.all1[1]} / ${qf.all2[1]}</div>
     </div>`;
   });
-  html += '</div>';
+  html += '</div></div>';
 
   // SF column
-  html += '<div class="bracket-round"><div class="bracket-label">🏟️ ½ 决赛</div>';
+  html += '<div class="bracket-col"><div class="bracket-label">🏟️ ½ 决赛</div><div class="bracket-round" id="brSF">';
   sfSlots.forEach((sf,idx) => {
     html += `<div class="bracket-node pred">
       <div class="bn-head">${sf.date} · ${sf.venue}</div>`;
@@ -907,10 +850,10 @@ function renderBracket() {
     });
     html += `</div>`;
   });
-  html += '</div>';
+  html += '</div></div>';
 
   // Final + Champion
-  html += '<div class="bracket-round wide"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div>';
+  html += '<div class="bracket-col" style="flex:1.3"><div class="bracket-label">🏆 决赛 · 7月19日 · 纽约</div><div class="bracket-round" id="brFinal">';
   html += '<div class="champion-box">';
   html += `<div class="crown">👑</div>`;
   html += `<div style="font-size:.85rem;color:var(--dim);margin-bottom:4px">预测冠军</div>`;
@@ -919,8 +862,7 @@ function renderBracket() {
   html += `<div class="champ-pct">${top ? top[1].champPct.toFixed(1) + '%' : '—'}</div>`;
   html += '<div class="runners">';
   html += topChamps.slice(1).map(([t,r]) => `${flag(t)}${t} ${r.champPct.toFixed(1)}%`).join(' &nbsp;·&nbsp; ');
-  html += '</div></div>';
-  html += '</div>';
+  html += '</div></div></div>';
 
   html += '</div></div>';
   document.getElementById('bracketViz').innerHTML = html;
@@ -1021,7 +963,7 @@ function renderPlayers() {
 // ===================================================================
 // TAB SWITCHING (with lazy render)
 // ===================================================================
-const TAB_MAP = {r16:0, bracket:1, teams:2, players:3, method:4};
+const TAB_MAP = {r16:0, bracket:1, teams:2, players:3};
 const rendered = {};
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
