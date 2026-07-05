@@ -749,7 +749,7 @@ function getMC() {
 // Draw SVG connector lines between bracket columns
 function drawBracketLines() {
   const pairs = [
-    {src:'brR16', dst:'brQF', conn:'brC1', map:[[0,1,0],[4,5,1],[2,3,2],[6,7,3]]},
+    {src:'brR16', dst:'brQF', conn:'brC1', map:[[0,1,0],[2,3,1],[4,5,2],[6,7,3]]},
     {src:'brQF', dst:'brSF', conn:'brC2', map:[[0,1,0],[2,3,1]]},
     {src:'brSF', dst:'brFinal', conn:'brC3', map:[[0,1,0]]},
   ];
@@ -763,29 +763,33 @@ function drawBracketLines() {
     const srcNodes = srcCol.querySelectorAll('.bracket-node');
     const dstNodes = dstCol.querySelectorAll('.bracket-node, .champion-box');
     const svg = connCol.querySelector('svg');
-    const rect = connCol.getBoundingClientRect();
-    const connLeft = rect.left;
-    const connWidth = rect.width;
+    const connRect = connCol.getBoundingClientRect();
+    const W = connRect.width;
+    const H = connCol.offsetHeight || connCol.parentElement.offsetHeight || 800;
+    const top = connRect.top;
+
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.style.width = W + 'px';
+    svg.style.height = H + 'px';
 
     let paths = '';
+    const stroke = '#cbd5e1';
+
     map.forEach(([s1,s2,d]) => {
-      const n1 = srcNodes[s1], n2 = srcNodes[s2];
-      const dn = dstNodes[d];
+      const n1 = srcNodes[s1], n2 = srcNodes[s2], dn = dstNodes[d];
       if (!n1 || !n2 || !dn) return;
 
-      const r1 = n1.getBoundingClientRect();
-      const r2 = n2.getBoundingClientRect();
-      const rd = dn.getBoundingClientRect();
-
-      const y1 = r1.top + r1.height/2 - rect.top;
-      const y2 = r2.top + r2.height/2 - rect.top;
-      const yd = rd.top + rd.height/2 - rect.top;
+      const y1 = n1.getBoundingClientRect().top + n1.offsetHeight/2 - top;
+      const y2 = n2.getBoundingClientRect().top + n2.offsetHeight/2 - top;
+      const yd = dn.getBoundingClientRect().top + dn.offsetHeight/2 - top;
       const ym = (y1 + y2) / 2;
 
-      const stroke = '#cbd5e1';
-      paths += `<path d="M0,${y1} L12,${y1} L12,${ym} L0,${ym}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
-      paths += `<path d="M0,${y2} L12,${y2}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
-      paths += `<path d="M${connWidth-12},${ym} L${connWidth},${ym} L${connWidth},${yd} L${connWidth-12},${yd}" fill="none" stroke="${stroke}" stroke-width="1.2"/>`;
+      // Two source lines merge into one
+      paths += `<path d="M0 ${y1} L10 ${y1} L10 ${ym}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
+      paths += `<path d="M0 ${y2} L10 ${y2}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
+      paths += `<path d="M0 ${ym} L10 ${ym}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
+      // Merged line to destination
+      paths += `<path d="M${W-10} ${ym} L${W} ${ym} L${W} ${yd}" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
     });
 
     svg.innerHTML = paths;
@@ -799,7 +803,7 @@ function updateAllVisibleViews() {
   if (activePanel) {
     const tabName = activePanel.id.replace('panel-', '');
     switchTab(tabName);
-    if (tabName === 'bracket') setTimeout(drawBracketLines, 100);
+    if (tabName === 'bracket') { setTimeout(drawBracketLines, 100); setTimeout(drawBracketLines, 400); }
   }
 }
 
@@ -984,9 +988,10 @@ function renderBracket() {
   html += '</div></div>';
   document.getElementById('bracketViz').innerHTML = html;
 
-  // Draw connector lines after DOM settles
-  setTimeout(drawBracketLines, 50);
-  window.addEventListener('resize', drawBracketLines);
+  // Draw connector lines after DOM settles + retry
+  setTimeout(drawBracketLines, 100);
+  setTimeout(drawBracketLines, 400);
+  window.addEventListener('resize', () => setTimeout(drawBracketLines, 50));
 }
 
 // ---- Team ranking table ----
