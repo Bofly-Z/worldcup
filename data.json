@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-05T06:00:00Z",
+  "lastUpdated": "2026-07-06T10:00:00Z",
   "source": "FIFA.com / FootyStats / 各体育媒体",
   "matches": {
     "R32": [
@@ -47,8 +47,9 @@
     {"name":"姆巴佩","team":"法国","goals":7,"assists":2},
     {"name":"梅西","team":"阿根廷","goals":7,"assists":0},
     {"name":"哈兰德","team":"挪威","goals":7,"assists":0},
-    {"name":"凯恩","team":"英格兰","goals":5,"assists":0},
+    {"name":"凯恩","team":"英格兰","goals":6,"assists":1},
     {"name":"登贝莱","team":"法国","goals":4,"assists":2},
+    {"name":"贝林厄姆","team":"英格兰","goals":4,"assists":2},
     {"name":"奥亚萨瓦尔","team":"西班牙","goals":4,"assists":1},
     {"name":"维尼修斯","team":"巴西","goals":4,"assists":1},
     {"name":"巴洛贡","team":"美国","goals":3,"assists":0},
