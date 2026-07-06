@@ -854,10 +854,10 @@ function renderBracket() {
   const qfSlots = QF_PATHS.map(qf => {
     const m1 = R16_MATCHES.find(m => m.id === qf.from[0]);
     const m2 = R16_MATCHES.find(m => m.id === qf.from[1]);
-    const p1 = r16Preds[qf.from[0]];
-    const p2 = r16Preds[qf.from[1]];
-    const adv1 = p1.pH > p1.pA ? m1.h : m1.a;
-    const adv2 = p2.pH > p2.pA ? m2.h : m2.a;
+    const r1 = matchResultsMap[DATA_ID[qf.from[0]]];
+    const r2 = matchResultsMap[DATA_ID[qf.from[1]]];
+    const adv1 = r1 ? r1.winner : (r16Preds[qf.from[0]].pH > r16Preds[qf.from[0]].pA ? m1.h : m1.a);
+    const adv2 = r2 ? r2.winner : (r16Preds[qf.from[1]].pH > r16Preds[qf.from[1]].pA ? m2.h : m2.a);
     const all1 = [m1.h, m1.a].sort((a,b) => (mc[b]?.qfPct||0) - (mc[a]?.qfPct||0));
     const all2 = [m2.h, m2.a].sort((a,b) => (mc[b]?.qfPct||0) - (mc[a]?.qfPct||0));
     return {id:qf.id,adv1,adv2,all1,all2,label:qf.label,date:qf.date,venue:qf.venue};
@@ -884,10 +884,15 @@ function renderBracket() {
   html += '<div class="bracket-col"><div class="bracket-label">🏟️ 16 强</div><div class="bracket-round" id="brR16">';
   R16_MATCHES.forEach((m,idx) => {
     const p = r16Preds[m.id];
-    html += `<div class="bracket-node done">
+    const r = matchResultsMap[DATA_ID[m.id]];
+    const sH = r ? `<b>${r.hs}</b>` : `${(p.pH*100).toFixed(0)}%`;
+    const sA = r ? `<b>${r.as}</b>` : `${(p.pA*100).toFixed(0)}%`;
+    const winnerH = r && r.winner === m.h ? ' style="font-weight:800;color:#059669"' : '';
+    const winnerA = r && r.winner === m.a ? ' style="font-weight:800;color:#059669"' : '';
+    html += `<div class="bracket-node ${r ? 'done' : ''}">
       <div class="bn-head">${m.date.split(' ')[0].replace('月','/').replace('日','')} · ${m.venue.slice(0,8)}</div>
-      <div class="bn-row"><span class="bn-team">${flag(m.h)} ${m.h}</span><span class="bn-pct">${(p.pH*100).toFixed(0)}%</span></div>
-      <div class="bn-row"><span class="bn-team">${flag(m.a)} ${m.a}</span><span class="bn-pct">${(p.pA*100).toFixed(0)}%</span></div>
+      <div class="bn-row"><span class="bn-team"${winnerH}>${flag(m.h)} ${m.h} ${r ? sH : ''}</span><span class="bn-pct">${sH}</span></div>
+      <div class="bn-row"><span class="bn-team"${winnerA}>${flag(m.a)} ${m.a} ${r ? sA : ''}</span><span class="bn-pct">${sA}</span></div>
     </div>`;
   });
   html += '</div></div>';
