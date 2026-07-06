@@ -89,14 +89,6 @@
       "createdByPid": 11976
     },
     {
-      "id": "34013343",
-      "cron": "0 10 6 7 *",
-      "prompt": "[第二次检查] Search for Brazil vs Norway (R16-3) and Mexico vs England (R16-4) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
-      "createdAt": 1783238199694,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
       "id": "21f11939",
       "cron": "0 10 7 7 *",
       "prompt": "[第二次检查] Search for Portugal vs Spain (R16-5) and USA vs Belgium (R16-6) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
