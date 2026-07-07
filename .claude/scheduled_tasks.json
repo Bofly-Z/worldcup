@@ -1,22 +1,6 @@
 {
   "tasks": [
     {
-      "id": "1b518e2d",
-      "cron": "0 8 6 7 *",
-      "prompt": "Search for Brazil vs Norway (R16-3) and Mexico vs England (R16-4) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
-      "createdAt": 1783237661803,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
-      "id": "ab20876c",
-      "cron": "0 8 7 7 *",
-      "prompt": "Search for Portugal vs Spain (R16-5) and USA vs Belgium (R16-6) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
-      "createdAt": 1783237680500,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
       "id": "96b9ea77",
       "cron": "0 5 8 7 *",
       "prompt": "Search for Argentina vs Egypt (R16-7) and Switzerland vs Colombia (R16-8) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
@@ -85,14 +69,6 @@
       "cron": "0 8 19 7 *",
       "prompt": "Search for 2026 World Cup FINAL result. Update data.json and index.html with the champion and final score. Then git commit + push.",
       "createdAt": 1783238092322,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
-      "id": "21f11939",
-      "cron": "0 10 7 7 *",
-      "prompt": "[第二次检查] Search for Portugal vs Spain (R16-5) and USA vs Belgium (R16-6) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
-      "createdAt": 1783238263899,
       "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
       "createdByPid": 11976
     },
