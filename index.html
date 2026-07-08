@@ -316,7 +316,7 @@ a{color:var(--blue);text-decoration:none}
 </div><!-- /container -->
 
 <div class="footer">
-  数据截至 2026-07-07 · 模型: Dixon-Coles + Elo + xG + 球员数据 · 蒙特卡洛 10,000 次<br>
+  数据截至 2026-07-08 · 模型: Dixon-Coles + Elo + xG + 球员数据 · 蒙特卡洛 10,000 次<br>
   <span class="warn">⚠️ 预测结果仅供学习交流，不构成任何形式的投注建议</span>
 </div>
 
@@ -399,7 +399,7 @@ const TEAMS = {
 // --- Star players ---
 const PLAYERS = [
   {name:"姆巴佩",team:"法国",club:"皇家马德里",age:27,g:44,a:5,cr:8.7,tg:6,ta:2,tr:8.9,val:200},
-  {name:"梅西",team:"阿根廷",club:"迈阿密国际",age:39,g:21,a:12,cr:8.3,tg:7,ta:0,tr:8.7,val:25},
+  {name:"梅西",team:"阿根廷",club:"迈阿密国际",age:39,g:21,a:12,cr:8.3,tg:8,ta:1,tr:8.9,val:25},
   {name:"哈兰德",team:"挪威",club:"曼城",age:25,g:34,a:5,cr:7.9,tg:5,ta:0,tr:8.3,val:200},
   {name:"凯恩",team:"英格兰",club:"拜仁慕尼黑",age:32,g:36,a:9,cr:8.2,tg:5,ta:1,tr:8.1,val:100},
   {name:"维尼修斯",team:"巴西",club:"皇家马德里",age:25,g:20,a:14,cr:7.8,tg:4,ta:1,tr:8.0,val:200},
@@ -1060,7 +1060,7 @@ function switchTab(name) {
 // EMBEDDED DATA (works without HTTP server) + live fetch enhancement
 // ===================================================================
 const EMBEDDED_DATA = {
-  "lastUpdated": "2026-07-07T12:00:00Z",
+  "lastUpdated": "2026-07-08T08:00:00Z",
   "source": "FIFA.com / FootyStats",
   "matches": {
     "R32": [
@@ -1088,8 +1088,8 @@ const EMBEDDED_DATA = {
       {"id":"R16-4","h":"墨西哥","a":"英格兰","hs":2,"as":3,"winner":"英格兰","date":"2026-07-06T08:00+08","venue":"墨西哥城","status":"done"},
       {"id":"R16-5","h":"葡萄牙","a":"西班牙","hs":0,"as":1,"winner":"西班牙","date":"2026-07-07T03:00+08","venue":"达拉斯","status":"done"},
       {"id":"R16-6","h":"美国","a":"比利时","hs":1,"as":4,"winner":"比利时","date":"2026-07-07T08:00+08","venue":"西雅图","status":"done"},
-      {"id":"R16-7","h":"阿根廷","a":"埃及","hs":null,"as":null,"winner":null,"date":"2026-07-08T00:00+08","venue":"亚特兰大","status":"upcoming"},
-      {"id":"R16-8","h":"瑞士","a":"哥伦比亚","hs":null,"as":null,"winner":null,"date":"2026-07-08T04:00+08","venue":"温哥华","status":"upcoming"}
+      {"id":"R16-7","h":"阿根廷","a":"埃及","hs":3,"as":2,"winner":"阿根廷","date":"2026-07-08T00:00+08","venue":"亚特兰大","status":"done"},
+      {"id":"R16-8","h":"瑞士","a":"哥伦比亚","hs":0,"as":0,"ps":4,"pa":3,"winner":"瑞士","date":"2026-07-08T04:00+08","venue":"温哥华","status":"done"}
     ],
     "QF": [
       {"id":"QF-1","from":["R16-1","R16-2"],"date":"2026-07-09","venue":"福克斯堡","status":"pending"},

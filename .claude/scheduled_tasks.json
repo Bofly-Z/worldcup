@@ -1,14 +1,6 @@
 {
   "tasks": [
     {
-      "id": "96b9ea77",
-      "cron": "0 5 8 7 *",
-      "prompt": "Search for Argentina vs Egypt (R16-7) and Switzerland vs Colombia (R16-8) 2026 World Cup results. If found, update data.json and index.html, then git commit + push.",
-      "createdAt": 1783237710547,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
       "id": "33428b00",
       "cron": "0 8 9 7 *",
       "prompt": "Search for QF-1: France vs Morocco 2026 World Cup quarterfinal result. If found, update data.json and index.html, then git commit + push.",
@@ -69,14 +61,6 @@
       "cron": "0 8 19 7 *",
       "prompt": "Search for 2026 World Cup FINAL result. Update data.json and index.html with the champion and final score. Then git commit + push.",
       "createdAt": 1783238092322,
-      "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
-      "createdByPid": 11976
-    },
-    {
-      "id": "feff180d",
-      "cron": "0 7 8 7 *",
-      "prompt": "[第二次检查] Search for Argentina vs Egypt (R16-7) and Switzerland vs Colombia (R16-8) 2026 World Cup results. If first check missed it, update data.json and index.html now, then git commit + push.",
-      "createdAt": 1783238294228,
       "createdBySessionId": "639b8835-31c7-4915-b410-1944b7fa93f1",
       "createdByPid": 11976
     },
