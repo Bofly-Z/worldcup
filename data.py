@@ -7,22 +7,22 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), 'data.json')
 
 # ---- Team comprehensive data ----
 TEAMS = {
-    "阿根廷":  {"elo":2006,"att":1.13,"def":1.31,"xgFor":9.28,"xgAgainst":2.74,"gf":11,"ga":3,"cs":2,"poss":54,"shotsOT":6.5,"form":[1,1,1],"mom":0.12,"starAvg":86.4,"fifa":3,"group":"J"},
-    "西班牙":  {"elo":2002,"att":1.20,"def":1.27,"xgFor":8.83,"xgAgainst":2.10,"gf":9,"ga":1,"cs":4,"poss":61,"shotsOT":7.2,"form":[1,1,0],"mom":0.08,"starAvg":85.2,"fifa":2,"group":"H"},
-    "法国":    {"elo":1995,"att":1.08,"def":1.17,"xgFor":7.52,"xgAgainst":2.35,"gf":13,"ga":2,"cs":2,"poss":52,"shotsOT":7.8,"form":[1,1,1],"mom":0.15,"starAvg":88.6,"fifa":1,"group":"I"},
-    "巴西":    {"elo":1931,"att":1.19,"def":1.30,"xgFor":7.10,"xgAgainst":3.42,"gf":9,"ga":5,"cs":1,"poss":55,"shotsOT":6.8,"form":[1,0,0],"mom":0.06,"starAvg":86.0,"fifa":6,"group":"C"},
-    "英格兰":  {"elo":1927,"att":1.01,"def":1.23,"xgFor":8.47,"xgAgainst":3.10,"gf":12,"ga":5,"cs":2,"poss":58,"shotsOT":6.0,"form":[0,1,1],"mom":0.04,"starAvg":85.8,"fifa":4,"group":"L"},
-    "摩洛哥":  {"elo":1912,"att":0.68,"def":1.17,"xgFor":5.85,"xgAgainst":3.55,"gf":7,"ga":3,"cs":2,"poss":44,"shotsOT":4.2,"form":[1,1,0],"mom":0.10,"starAvg":78.8,"fifa":8,"group":"C"},
-    "墨西哥":  {"elo":1904,"att":0.74,"def":0.95,"xgFor":5.62,"xgAgainst":3.80,"gf":10,"ga":6,"cs":2,"poss":48,"shotsOT":5.0,"form":[1,1,0],"mom":0.09,"starAvg":77.8,"fifa":14,"group":"A"},
-    "哥伦比亚":{"elo":1901,"att":0.92,"def":1.17,"xgFor":6.38,"xgAgainst":2.90,"gf":6,"ga":2,"cs":3,"poss":51,"shotsOT":5.5,"form":[1,1,1],"mom":0.11,"starAvg":80.6,"fifa":12,"group":"K"},
-    "葡萄牙":  {"elo":1892,"att":1.08,"def":1.11,"xgFor":7.25,"xgAgainst":3.68,"gf":8,"ga":4,"cs":1,"poss":53,"shotsOT":6.2,"form":[1,0,1],"mom":0.02,"starAvg":82.4,"fifa":5,"group":"K"},
-    "比利时":  {"elo":1840,"att":1.04,"def":0.94,"xgFor":6.90,"xgAgainst":4.15,"gf":8,"ga":5,"cs":0,"poss":50,"shotsOT":5.8,"form":[1,0,1],"mom":-0.02,"starAvg":81.6,"fifa":9,"group":"G"},
-    "瑞士":    {"elo":1852,"att":0.85,"def":0.86,"xgFor":8.57,"xgAgainst":2.50,"gf":7,"ga":2,"cs":2,"poss":49,"shotsOT":5.2,"form":[1,1,0],"mom":0.05,"starAvg":76.8,"fifa":19,"group":"B"},
-    "挪威":    {"elo":1850,"att":0.84,"def":0.71,"xgFor":5.18,"xgAgainst":4.40,"gf":9,"ga":5,"cs":1,"poss":46,"shotsOT":4.8,"form":[0,1,1],"mom":0.03,"starAvg":80.2,"fifa":38,"group":"I"},
-    "巴拉圭":  {"elo":1731,"att":0.49,"def":0.88,"xgFor":3.95,"xgAgainst":5.20,"gf":4,"ga":6,"cs":0,"poss":38,"shotsOT":3.0,"form":[0,1,1],"mom":0.08,"starAvg":72.0,"fifa":42,"group":"D"},
-    "加拿大":  {"elo":1769,"att":0.62,"def":0.74,"xgFor":5.10,"xgAgainst":3.90,"gf":7,"ga":4,"cs":2,"poss":43,"shotsOT":4.5,"form":[1,1,0],"mom":0.07,"starAvg":75.6,"fifa":30,"group":"B"},
-    "埃及":    {"elo":1777,"att":0.50,"def":0.85,"xgFor":4.35,"xgAgainst":4.10,"gf":5,"ga":4,"cs":1,"poss":42,"shotsOT":3.8,"form":[0,1,1],"mom":-0.01,"starAvg":76.4,"fifa":33,"group":"G"},
-    "美国":    {"elo":1787,"att":0.72,"def":0.77,"xgFor":6.15,"xgAgainst":3.60,"gf":10,"ga":4,"cs":1,"poss":47,"shotsOT":5.8,"form":[1,1,0],"mom":0.06,"starAvg":77.0,"fifa":16,"group":"D"},
+    "阿根廷":  {"elo":2006,"att":1.13,"def":1.31,"xgFor":9.28,"xgAgainst":2.74,"gf":11,"ga":3,"cs":2,"poss":54,"shotsOT":6.5,"form":[1,1,1],"mom":0.12,"starAvg":6.1,"fifa":3,"group":"J"},
+    "西班牙":  {"elo":2002,"att":1.20,"def":1.27,"xgFor":8.83,"xgAgainst":2.10,"gf":9,"ga":1,"cs":4,"poss":61,"shotsOT":7.2,"form":[1,1,0],"mom":0.08,"starAvg":6.2,"fifa":2,"group":"H"},
+    "法国":    {"elo":1995,"att":1.08,"def":1.17,"xgFor":7.52,"xgAgainst":2.35,"gf":13,"ga":2,"cs":2,"poss":52,"shotsOT":7.8,"form":[1,1,1],"mom":0.15,"starAvg":6.5,"fifa":1,"group":"I"},
+    "巴西":    {"elo":1931,"att":1.19,"def":1.30,"xgFor":7.10,"xgAgainst":3.42,"gf":9,"ga":5,"cs":1,"poss":55,"shotsOT":6.8,"form":[1,0,0],"mom":0.06,"starAvg":5.7,"fifa":6,"group":"C"},
+    "英格兰":  {"elo":1927,"att":1.01,"def":1.23,"xgFor":8.47,"xgAgainst":3.10,"gf":12,"ga":5,"cs":2,"poss":58,"shotsOT":6.0,"form":[0,1,1],"mom":0.04,"starAvg":5.9,"fifa":4,"group":"L"},
+    "摩洛哥":  {"elo":1912,"att":0.68,"def":1.17,"xgFor":5.85,"xgAgainst":3.55,"gf":7,"ga":3,"cs":2,"poss":44,"shotsOT":4.2,"form":[1,1,0],"mom":0.10,"starAvg":6.2,"fifa":8,"group":"C"},
+    "墨西哥":  {"elo":1904,"att":0.74,"def":0.95,"xgFor":5.62,"xgAgainst":3.80,"gf":10,"ga":6,"cs":2,"poss":48,"shotsOT":5.0,"form":[1,1,0],"mom":0.09,"starAvg":5.3,"fifa":14,"group":"A"},
+    "哥伦比亚":{"elo":1901,"att":0.92,"def":1.17,"xgFor":6.38,"xgAgainst":2.90,"gf":6,"ga":2,"cs":3,"poss":51,"shotsOT":5.5,"form":[1,1,1],"mom":0.11,"starAvg":5.6,"fifa":12,"group":"K"},
+    "葡萄牙":  {"elo":1892,"att":1.08,"def":1.11,"xgFor":7.25,"xgAgainst":3.68,"gf":8,"ga":4,"cs":1,"poss":53,"shotsOT":6.2,"form":[1,0,1],"mom":0.02,"starAvg":5.2,"fifa":5,"group":"K"},
+    "比利时":  {"elo":1840,"att":1.04,"def":0.94,"xgFor":6.90,"xgAgainst":4.15,"gf":8,"ga":5,"cs":0,"poss":50,"shotsOT":5.8,"form":[1,0,1],"mom":-0.02,"starAvg":5.5,"fifa":9,"group":"G"},
+    "瑞士":    {"elo":1852,"att":0.85,"def":0.86,"xgFor":8.57,"xgAgainst":2.50,"gf":7,"ga":2,"cs":2,"poss":49,"shotsOT":5.2,"form":[1,1,0],"mom":0.05,"starAvg":5.0,"fifa":19,"group":"B"},
+    "挪威":    {"elo":1850,"att":0.84,"def":0.71,"xgFor":5.18,"xgAgainst":4.40,"gf":9,"ga":5,"cs":1,"poss":46,"shotsOT":4.8,"form":[0,1,1],"mom":0.03,"starAvg":5.7,"fifa":38,"group":"I"},
+    "巴拉圭":  {"elo":1731,"att":0.49,"def":0.88,"xgFor":3.95,"xgAgainst":5.20,"gf":4,"ga":6,"cs":0,"poss":38,"shotsOT":3.0,"form":[0,1,1],"mom":0.08,"starAvg":4.8,"fifa":42,"group":"D"},
+    "加拿大":  {"elo":1769,"att":0.62,"def":0.74,"xgFor":5.10,"xgAgainst":3.90,"gf":7,"ga":4,"cs":2,"poss":43,"shotsOT":4.5,"form":[1,1,0],"mom":0.07,"starAvg":5.2,"fifa":30,"group":"B"},
+    "埃及":    {"elo":1777,"att":0.50,"def":0.85,"xgFor":4.35,"xgAgainst":4.10,"gf":5,"ga":4,"cs":1,"poss":42,"shotsOT":3.8,"form":[0,1,1],"mom":-0.01,"starAvg":5.2,"fifa":33,"group":"G"},
+    "美国":    {"elo":1787,"att":0.72,"def":0.77,"xgFor":6.15,"xgAgainst":3.60,"gf":10,"ga":4,"cs":1,"poss":47,"shotsOT":5.8,"form":[1,1,0],"mom":0.06,"starAvg":5.3,"fifa":16,"group":"D"},
 }
 
 # ---- R16 bracket ----

@@ -64,7 +64,7 @@ def team_power(name):
     goalS = min(0.95, max(0.05, 0.50 + (gfRatio - 1.5) / 5))
     tournS = xgS * 0.55 + goalS * 0.30 + (adj_cs / 5) * 0.15
 
-    starZ = (t['starAvg'] - 74) / 18
+    starZ = (t['starAvg'] - 5.2) / 1.8
     playerS = min(0.95, max(0.05, 0.50 + starZ * 0.28))
     momS = min(0.90, max(0.10, 0.50 + t['mom'] * 2.5))
 
@@ -73,7 +73,7 @@ def team_power(name):
     gfRate = adj_gf / matches
     xgRate = adj_xgFor / matches
     possNorm = (t['poss'] - 35) / 30
-    playerNorm = (t['starAvg'] - 72) / 20
+    playerNorm = (t['starAvg'] - 4.8) / 1.8
     tournAttRaw = xgRate * 0.40 + gfRate * 0.40 + max(0, possNorm) * 0.20 + max(0, playerNorm) * 0.20
     tournAtt = 0.30 + tournAttRaw * 0.50
 
