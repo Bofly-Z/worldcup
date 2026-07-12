@@ -316,7 +316,7 @@ a{color:var(--blue);text-decoration:none}
 </div><!-- /container -->
 
 <div class="footer">
-  数据截至 2026-07-08 · 模型: Dixon-Coles + Elo + xG + 球员数据 · 蒙特卡洛 10,000 次<br>
+  数据截至 2026-07-12 · 模型: Dixon-Coles + Elo + xG + 球员数据 · 蒙特卡洛 10,000 次<br>
   <span class="warn">⚠️ 预测结果仅供学习交流，不构成任何形式的投注建议</span>
 </div>
 
@@ -400,7 +400,7 @@ const TEAMS = {
 // ★ = FIFA官方完整数据  ☆ = FIFA部分数据+推算  ○ = 赛事数据推算
 const PLAYERS = [
   // ★ FIFA: Att 8.10 Cre 7.40 Def 4.55
-  {name:"姆巴佩",team:"法国",club:"皇家马德里",age:27,g:44,a:5,cr:8.7,tg:7,ta:2,tr:6.7,val:200},
+  {name:"姆巴佩",team:"法国",club:"皇家马德里",age:27,g:44,a:5,cr:8.7,tg:8,ta:2,tr:6.9,val:200},
   // ★ FIFA: Att 8.30 Cre 6.91 Def 5.25
   {name:"梅西",team:"阿根廷",club:"迈阿密国际",age:39,g:21,a:12,cr:8.3,tg:8,ta:1,tr:6.8,val:25},
   // ★ FIFA: Att 7.33 Cre 5.03 Def 4.81
@@ -410,11 +410,11 @@ const PLAYERS = [
   // ★ FIFA: Att 7.90 Cre 6.51 Def 4.72
   {name:"维尼修斯",team:"巴西",club:"皇家马德里",age:25,g:20,a:14,cr:7.8,tg:4,ta:1,tr:6.4,val:200},
   // ★ FIFA: Att 7.51 Cre 6.67 Def 4.70
-  {name:"登贝莱",team:"法国",club:"巴黎圣日耳曼",age:29,g:18,a:16,cr:8.0,tg:4,ta:2,tr:6.3,val:80},
+  {name:"登贝莱",team:"法国",club:"巴黎圣日耳曼",age:29,g:18,a:16,cr:8.0,tg:5,ta:2,tr:6.5,val:80},
   // ☆ FIFA创造力前十, Att/Def推算
   {name:"亚马尔",team:"西班牙",club:"巴塞罗那",age:18,g:18,a:21,cr:8.1,tg:2,ta:3,tr:6.2,val:180},
   // ☆ FIFA Att 9.44(单场最高) Cre 7.87, 赛事均值推算
-  {name:"贝林厄姆",team:"英格兰",club:"皇家马德里",age:22,g:22,a:13,cr:8.3,tg:2,ta:2,tr:6.3,val:180},
+  {name:"贝林厄姆",team:"英格兰",club:"皇家马德里",age:22,g:22,a:13,cr:8.3,tg:6,ta:2,tr:6.3,val:180},
   // ★ FIFA: Att 5.72 Cre 4.98 Def 4.74 (第79位)
   {name:"C罗",team:"葡萄牙",club:"利雅得胜利",age:41,g:35,a:11,cr:8.0,tg:3,ta:0,tr:5.1,val:12},
   // ☆ FIFA Cre 7.2, Att/Def推算 (16次创造机会领跑)
@@ -449,6 +449,10 @@ const PLAYERS = [
   {name:"阿尔米隆",team:"巴拉圭",club:"纽卡斯尔",age:32,g:8,a:6,cr:7.1,tg:1,ta:1,tr:4.8,val:15},
   // ○ 赛事数据推算 (埃及已淘汰)
   {name:"马尔穆什",team:"埃及",club:"曼城",age:27,g:18,a:10,cr:7.7,tg:1,ta:1,tr:4.8,val:60},
+  // ○ 赛事数据推算 (比利时已淘汰)
+  {name:"德凯特拉雷",team:"比利时",club:"亚特兰大",age:25,g:20,a:10,cr:7.6,tg:3,ta:1,tr:5.9,val:55},
+  // ☆ 西班牙超级替补, R16+QF连续绝杀
+  {name:"梅里诺",team:"西班牙",club:"阿森纳",age:30,g:9,a:3,cr:7.3,tg:2,ta:0,tr:6.0,val:50},
 ];
 
 // ===================================================================
@@ -1086,7 +1090,7 @@ function switchTab(name) {
 // EMBEDDED DATA (works without HTTP server) + live fetch enhancement
 // ===================================================================
 const EMBEDDED_DATA = {
-  "lastUpdated": "2026-07-08T08:00:00Z",
+  "lastUpdated": "2026-07-12T08:00:00Z",
   "source": "FIFA.com / FootyStats",
   "matches": {
     "R32": [
@@ -1118,10 +1122,10 @@ const EMBEDDED_DATA = {
       {"id":"R16-8","h":"瑞士","a":"哥伦比亚","hs":0,"as":0,"ps":4,"pa":3,"winner":"瑞士","date":"2026-07-08T04:00+08","venue":"温哥华","status":"done"}
     ],
     "QF": [
-      {"id":"QF-1","from":["R16-1","R16-2"],"date":"2026-07-09","venue":"福克斯堡","status":"pending"},
-      {"id":"QF-2","from":["R16-3","R16-4"],"date":"2026-07-11","venue":"迈阿密","status":"pending"},
-      {"id":"QF-3","from":["R16-5","R16-6"],"date":"2026-07-10","venue":"洛杉矶","status":"pending"},
-      {"id":"QF-4","from":["R16-7","R16-8"],"date":"2026-07-12","venue":"堪萨斯城","status":"pending"}
+      {"id":"QF-1","h":"摩洛哥","a":"法国","hs":0,"as":2,"winner":"法国","from":["R16-1","R16-2"],"date":"2026-07-09","venue":"福克斯堡","status":"done"},
+      {"id":"QF-2","h":"挪威","a":"英格兰","hs":1,"as":2,"winner":"英格兰","from":["R16-3","R16-4"],"date":"2026-07-11","venue":"迈阿密","status":"done"},
+      {"id":"QF-3","h":"西班牙","a":"比利时","hs":2,"as":1,"winner":"西班牙","from":["R16-5","R16-6"],"date":"2026-07-10","venue":"洛杉矶","status":"done"},
+      {"id":"QF-4","h":"阿根廷","a":"瑞士","hs":3,"as":1,"winner":"阿根廷","from":["R16-7","R16-8"],"date":"2026-07-12","venue":"堪萨斯城","status":"done"}
     ],
     "SF": [
       {"id":"SF-1","from":["QF-1","QF-3"],"date":"2026-07-14","venue":"达拉斯","status":"pending"},
