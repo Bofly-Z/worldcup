@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-12T08:00:00Z",
+  "lastUpdated": "2026-07-16T08:00:00Z",
   "source": "FIFA.com / FootyStats / 各体育媒体",
   "matches": {
     "R32": [
@@ -37,24 +37,25 @@
       {"id":"QF-4","h":"阿根廷","a":"瑞士","hs":3,"as":1,"winner":"阿根廷","from":["R16-7","R16-8"],"date":"2026-07-11","venue":"堪萨斯城","status":"done"}
     ],
     "SF": [
-      {"id":"SF-1","from":["QF-1","QF-3"],"date":"2026-07-14","venue":"达拉斯","status":"pending"},
-      {"id":"SF-2","from":["QF-2","QF-4"],"date":"2026-07-15","venue":"亚特兰大","status":"pending"}
+      {"id":"SF-1","h":"法国","a":"西班牙","hs":0,"as":2,"winner":"西班牙","from":["QF-1","QF-3"],"date":"2026-07-14","venue":"达拉斯 AT&T","status":"done"},
+      {"id":"SF-2","h":"阿根廷","a":"英格兰","hs":2,"as":1,"winner":"阿根廷","from":["QF-2","QF-4"],"date":"2026-07-15","venue":"亚特兰大 梅赛德斯-奔驰","status":"done"}
     ],
-    "FINAL": {"id":"FINAL","from":["SF-1","SF-2"],"date":"2026-07-19","venue":"纽约 大都会人寿","status":"pending"},
-    "THIRD": {"id":"THIRD","date":"2026-07-18","venue":"迈阿密花园","status":"pending"}
+    "FINAL": {"id":"FINAL","h":"西班牙","a":"阿根廷","from":["SF-1","SF-2"],"date":"2026-07-19","venue":"纽约 大都会人寿","status":"pending"},
+    "THIRD": {"id":"THIRD","h":"法国","a":"英格兰","date":"2026-07-18","venue":"迈阿密花园","status":"pending"}
   },
   "topScorers": [
     {"name":"姆巴佩","team":"法国","goals":8,"assists":2},
-    {"name":"梅西","team":"阿根廷","goals":8,"assists":1},
+    {"name":"梅西","team":"阿根廷","goals":8,"assists":3},
     {"name":"哈兰德","team":"挪威","goals":7,"assists":0},
     {"name":"凯恩","team":"英格兰","goals":6,"assists":1},
     {"name":"登贝莱","team":"法国","goals":5,"assists":2},
     {"name":"贝林厄姆","team":"英格兰","goals":6,"assists":2},
-    {"name":"奥亚萨瓦尔","team":"西班牙","goals":4,"assists":1},
+    {"name":"奥亚萨瓦尔","team":"西班牙","goals":5,"assists":1},
     {"name":"维尼修斯","team":"巴西","goals":4,"assists":1},
     {"name":"巴洛贡","team":"美国","goals":3,"assists":0},
     {"name":"C罗","team":"葡萄牙","goals":3,"assists":0},
     {"name":"戴维","team":"加拿大","goals":3,"assists":0},
-    {"name":"德凯特拉雷","team":"比利时","goals":3,"assists":1}
+    {"name":"德凯特拉雷","team":"比利时","goals":3,"assists":1},
+    {"name":"劳塔罗","team":"阿根廷","goals":4,"assists":1}
   ]
 }
