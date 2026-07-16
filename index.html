@@ -258,10 +258,10 @@ a{color:var(--blue);text-decoration:none}
     蒙特卡洛模拟 <strong>10,000</strong> 次 · 从 16 强到冠军的完整晋级概率 · 历史 Elo 仅占 15%
   </div>
   <div class="meta-row">
-    <span class="meta-chip">📈 Elo 历史 <strong>40%</strong></span>
-    <span class="meta-chip">🔥 赛事表现 <strong>60%</strong></span>
-    <span class="meta-chip">⚽ xG+GF 各<strong>40%</strong> (MLE)</span>
-    <span class="meta-chip">🛡️ GA+CS <strong>55+35%</strong> (MLE)</span>
+    <span class="meta-chip">🔥 赛事表现 <strong>50%</strong></span>
+    <span class="meta-chip">⭐ 球员质量 <strong>22%</strong></span>
+    <span class="meta-chip">📈 Elo 历史 <strong>17%</strong></span>
+    <span class="meta-chip">📈 动量 <strong>11%</strong></span>
   </div>
 </div>
 
@@ -399,22 +399,22 @@ const TEAMS = {
 // --- Star players (tr = FIFA Power Rankings composite: (Att+Cre+Def)/3) ---
 // ★ = FIFA官方完整数据  ☆ = FIFA部分数据+推算  ○ = 赛事数据推算
 const PLAYERS = [
-  // ★ FIFA: Att 8.10 Cre 7.40 Def 4.55
-  {name:"姆巴佩",team:"法国",club:"皇家马德里",age:27,g:44,a:5,cr:8.7,tg:8,ta:2,tr:6.9,val:200},
-  // ★ FIFA: Att 8.30 Cre 6.91 Def 5.25
-  {name:"梅西",team:"阿根廷",club:"迈阿密国际",age:39,g:21,a:12,cr:8.3,tg:8,ta:3,tr:6.8,val:25},
-  // ★ FIFA: Att 7.33 Cre 5.03 Def 4.81
-  {name:"哈兰德",team:"挪威",club:"曼城",age:25,g:34,a:5,cr:7.9,tg:5,ta:0,tr:5.7,val:200},
-  // ☆ FIFA Att 7.17, Cre/Def推算
-  {name:"凯恩",team:"英格兰",club:"拜仁慕尼黑",age:32,g:36,a:9,cr:8.2,tg:5,ta:1,tr:5.5,val:100},
-  // ★ FIFA: Att 7.90 Cre 6.51 Def 4.72
-  {name:"维尼修斯",team:"巴西",club:"皇家马德里",age:25,g:20,a:14,cr:7.8,tg:4,ta:1,tr:6.4,val:200},
-  // ★ FIFA: Att 7.51 Cre 6.67 Def 4.70
-  {name:"登贝莱",team:"法国",club:"巴黎圣日耳曼",age:29,g:18,a:16,cr:8.0,tg:5,ta:2,tr:6.5,val:80},
+  // ★ FIFA(post-QF): Att 8.71 Cre 7.52 Def 4.71 → #1 overall (Att 8.97 post-QF)
+  {name:"姆巴佩",team:"法国",club:"皇家马德里",age:27,g:44,a:5,cr:8.7,tg:8,ta:2,tr:7.0,val:200},
+  // ★ FIFA(post-QF): Att 8.45 Cre 7.05 Def 4.53 → total 20.38 (#3 overall)
+  {name:"梅西",team:"阿根廷",club:"迈阿密国际",age:39,g:21,a:12,cr:8.3,tg:8,ta:4,tr:6.8,val:25},
+  // ★ FIFA(post-QF): Att 8.04 Cre 4.84 Def 5.31 → #3 overall
+  {name:"哈兰德",team:"挪威",club:"曼城",age:25,g:34,a:5,cr:7.9,tg:7,ta:0,tr:6.1,val:200},
+  // ★ FIFA(post-QF): Att 7.41 Cre 5.01 Def 4.84 → #4 overall
+  {name:"凯恩",team:"英格兰",club:"拜仁慕尼黑",age:32,g:36,a:9,cr:8.2,tg:6,ta:1,tr:5.8,val:100},
+  // ★ FIFA(post-QF): Att 7.20 Cre 7.17 Def 4.65 → #7 overall
+  {name:"维尼修斯",team:"巴西",club:"皇家马德里",age:25,g:20,a:14,cr:7.8,tg:4,ta:1,tr:6.3,val:200},
+  // ★ FIFA(post-QF): Att 6.97 Cre 6.91 Def 4.88 → #9 overall
+  {name:"登贝莱",team:"法国",club:"巴黎圣日耳曼",age:29,g:18,a:16,cr:8.0,tg:5,ta:2,tr:6.3,val:80},
   // ☆ FIFA创造力前十, Att/Def推算
   {name:"亚马尔",team:"西班牙",club:"巴塞罗那",age:18,g:18,a:21,cr:8.1,tg:2,ta:3,tr:6.2,val:180},
-  // ☆ FIFA Att 9.44(单场最高) Cre 7.87, 赛事均值推算
-  {name:"贝林厄姆",team:"英格兰",club:"皇家马德里",age:22,g:22,a:13,cr:8.3,tg:6,ta:2,tr:6.3,val:180},
+  // ★ FIFA(post-QF): Att 7.30 Cre 6.41 Def 5.87 → #6 overall (Golden Ball #2 after SF)
+  {name:"贝林厄姆",team:"英格兰",club:"皇家马德里",age:22,g:22,a:13,cr:8.3,tg:6,ta:2,tr:6.5,val:180},
   // ★ FIFA: Att 5.72 Cre 4.98 Def 4.74 (第79位)
   {name:"C罗",team:"葡萄牙",club:"利雅得胜利",age:41,g:35,a:11,cr:8.0,tg:3,ta:0,tr:5.1,val:12},
   // ☆ FIFA Cre 7.2, Att/Def推算 (16次创造机会领跑)
@@ -1386,7 +1386,7 @@ setInterval(tryLiveUpdate, 60000);
 // ===================================================================
 console.log('🏆 2026 世界杯淘汰赛预测引擎');
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
-console.log('📊 模型: Dixon-Coles 泊松 + 赛事表现(55%) + Elo(15%) + 球员(20%) + 动量(10%)');
+console.log('📊 模型: Dixon-Coles 泊松 + 赛事表现(50%) + Elo(17%) + 球员(22%) + 动量(11%)');
 console.log('🎲 MC: 先 2000 次秒开 → 后台 10000 次精炼');
 console.log('🔄 数据自动轮询: 每 60 秒');
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
